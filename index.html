@@ -1,83 +1,353 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>个人主页</title>
-  <meta name="description" content="一个安静、富有创意的人的个人主页。" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(6px); }
-    .card { background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Huan's Adventure Map</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@400;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-parchment: #f3eacb; /* 羊皮纸亮色 */
+            --bg-card: #fffef0;
+            --ink-color: #2c241b;     /* 深褐墨色 */
+            --ink-light: #5c4d3c;
+            --accent-red: #8a2c2c;
+            --border-color: #8b7355;
+            
+            /* 字体变量 */
+            --font-hand: 'Caveat', cursive; 
+            --font-zh: 'ZCOOL XiaoWei', 'Noto Serif SC', serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: #1a1a1a;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: var(--font-hand);
+            color: var(--ink-color);
+        }
+
+        /* ------ 地图视口 ------ */
+        .map-viewport {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* 允许滚动 */
+            -webkit-overflow-scrolling: touch; /* 移动端惯性滚动 */
+            cursor: grab;
+            background: #d4c5a3;
+        }
+
+        .map-viewport:active { cursor: grabbing; }
+
+        /* 实际上载的地图图片 */
+        .map-layer {
+            position: relative;
+            /* 保证地图足够大，手机上可以滑来滑去 */
+            min-width: 1600px; 
+            min-height: 1200px;
+            display: block;
+            /* 这里的图片地址是深水城的示例图，你需要替换成你自己的黑白地图 */
+            background-image: url('https://i.redd.it/36tc6drz7gu51.jpg');
+            background-size: cover;
+            background-position: center;
+            /* CSS滤镜：给地图加一点复古黄褐色调，这样即使你上传黑白图也会变成羊皮纸色 */
+            filter: sepia(0.4) contrast(1.1) brightness(0.9); 
+        }
+
+        /* ------ 视觉特效层：边缘暗角与纹理 ------ */
+        .vignette-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none; /* 让鼠标穿透这个遮罩 */
+            z-index: 5;
+            /* 四周黑色渐变，模拟旧地图边缘 */
+            background: radial-gradient(circle at center, transparent 60%, rgba(43, 32, 24, 0.4) 100%);
+            /* 叠加一层噪点纹理 */
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+        }
+
+        /* ------ 交互标记点 (Marker) ------ */
+        .marker {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            z-index: 10;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            /* 简单的呼吸动画 */
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-5px); }
+        }
+
+        /* 标记的图标样式 */
+        .marker-icon {
+            width: 100%;
+            height: 100%;
+            /* 使用 drop-shadow 给图标加白边，防止在深色线条地图上看不清 */
+            filter: drop-shadow(0 0 2px rgba(255,255,255,0.8));
+            transition: transform 0.2s;
+        }
+        .marker:hover .marker-icon { transform: scale(1.1); }
+
+        /* ------ 华丽的弹窗卡片 (Tooltip) ------ */
+        .card-popup {
+            position: absolute;
+            /* 默认位置：标记上方 */
+            bottom: 70px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            z-index: 100;
+            
+            /* 卡片背景 */
+            background-color: var(--bg-card);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            
+            /* 华丽边框设计 */
+            border: 3px double var(--border-color);
+            outline: 1px solid var(--border-color);
+            outline-offset: 3px;
+            padding: 25px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-radius: 2px;
+
+            /* 默认隐藏 */
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: none;
+        }
+
+        /* 装饰性边角 (CSS 伪元素画花纹) */
+        .card-popup::before, .card-popup::after {
+            position: absolute;
+            font-family: serif;
+            font-size: 24px;
+            color: var(--border-color);
+            line-height: 1;
+        }
+        .card-popup::before {
+            content: "✥"; /* 十字花纹 */
+            top: 2px; left: 2px;
+        }
+        .card-popup::after {
+            content: "✥";
+            bottom: 2px; right: 2px;
+        }
+
+        /* 激活状态 (通过 JS 或 Hover 添加 class) */
+        .marker.active .card-popup,
+        .marker:hover .card-popup {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        /* ------ 卡片内容排版 ------ */
+        .card-title {
+            font-family: var(--font-zh); /* 中文标题用古风体 */
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 5px;
+            color: var(--accent-red);
+            letter-spacing: 2px;
+            border-bottom: 1px solid var(--ink-light);
+            padding-bottom: 5px;
+        }
+
+        .card-subtitle {
+            font-family: var(--font-hand); /* 英文副标用手写体 */
+            font-size: 1.2rem;
+            text-align: center;
+            color: var(--ink-light);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .card-content {
+            font-family: var(--font-zh);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* 角色属性小表格 */
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+            border-top: 1px dashed var(--ink-light);
+            border-bottom: 1px dashed var(--ink-light);
+            padding: 8px 0;
+        }
+        .stat-item { text-align: center; }
+        .stat-item label { font-size: 0.8rem; display: block; font-family: var(--font-hand); font-weight: bold;}
+        .stat-item span { font-size: 1.3rem; font-weight: bold; font-family: var(--font-hand);}
+
+        /* 链接列表 */
+        .link-list { list-style: none; margin-top: 10px; }
+        .link-list li { margin-bottom: 8px; }
+        .link-list a {
+            text-decoration: none;
+            color: var(--ink-color);
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        .link-list a::before {
+            content: "✒";
+            margin-right: 8px;
+            color: var(--accent-red);
+        }
+        .link-list a:hover { color: var(--accent-red); }
+
+        /* ------ 移动端适配 (Mobile Optimization) ------ */
+        @media (max-width: 768px) {
+            .map-layer {
+                /* 手机上不需要那么巨大的图，稍微缩小一点点节省内存 */
+                min-width: 1200px; 
+                min-height: 900px; 
+            }
+
+            /* 手机端卡片改为底部固定弹出 (Bottom Sheet) */
+            .card-popup {
+                position: fixed;
+                top: auto;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%) translateY(20px); /* 初始下沉 */
+                width: 90%; /* 宽度占满屏幕 */
+                max-width: 400px;
+                z-index: 1000;
+            }
+
+            .marker.active .card-popup {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            /* 取消 Hover 逻辑，依赖 Click/Tap */
+            .marker:hover .card-popup {
+                /* 手机上取消 hover 自动弹窗，防止误触，改为点击触发 */
+                opacity: 0; 
+                visibility: hidden;
+            }
+            /* 只有添加了 .active 类（JS点击后）才显示 */
+            .marker.active .card-popup {
+                opacity: 1; 
+                visibility: visible;
+            }
+        }
+    </style>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-100 antialiased">
-  <div class="max-w-4xl mx-auto p-6">
-    <header class="flex items-center justify-between mb-8">
-      <div>
-        <h1 class="text-3xl md:text-4xl font-semibold">你好 👋</h1>
-        <p class="text-slate-300 mt-1">欢迎来到我的个人主页。</p>
-      </div>
-      <button id="themeToggle" class="px-3 py-1 rounded-md glass text-sm">切换主题</button>
-    </header>
+<body>
 
-    <section class="p-6 rounded-2xl card">
-      <h2 class="text-2xl font-semibold">关于本站</h2>
-      <p class="mt-3 text-slate-300 leading-relaxed">这是一个简单的静态网页，用来展示我感兴趣的内容、正在进行的项目，以及我想要记录的点滴。页面设计轻量、无跟踪、无隐私信息，所有内容均可自由修改与扩展。</p>
-    </section>
+    <div class="vignette-overlay"></div>
 
-    <section class="mt-6 grid md:grid-cols-2 gap-6">
-      <div class="p-6 rounded-2xl card">
-        <h3 class="text-xl font-semibold">我在探索的方向</h3>
-        <ul class="mt-3 text-slate-300 text-sm space-y-2 list-disc list-inside">
-          <li>创意写作与世界观构建</li>
-          <li>语言学习与文化表达</li>
-          <li>桌面游戏与叙事设计</li>
-          <li>猫咪行为研究与陪伴</li>
-        </ul>
-      </div>
-      <div class="p-6 rounded-2xl card">
-        <h3 class="text-xl font-semibold">近期项目</h3>
-        <ul class="mt-3 text-slate-300 text-sm space-y-2 list-disc list-inside">
-          <li>短篇故事翻译与改写</li>
-          <li>轻量化网页实验</li>
-          <li>语言学习日志与小工具</li>
-        </ul>
-      </div>
-    </section>
+    <div class="map-viewport" id="mapContainer">
+        <div class="map-layer" style="width: 1600px; height: 1200px;">
+            
+            <div class="marker" style="top: 45%; left: 52%;" onclick="togglePopup(this)">
+                <svg class="marker-icon" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="#2c241b" />
+                    <text x="50" y="65" font-size="40" text-anchor="middle" fill="#f3eacb">♝</text>
+                </svg>
 
-    <section class="mt-8 p-6 rounded-2xl card">
-      <h2 class="text-2xl font-semibold">联系</h2>
-      <p class="mt-3 text-slate-300 text-sm">如果你想合作、交流创作想法，或是单纯打个招呼，可以通过 GitHub 留言或邮件联系我（此处留空，由你自行添加）。</p>
-      <div class="mt-4 flex flex-wrap gap-3">
-        <a class="px-4 py-2 rounded-md bg-slate-700/60" href="#">GitHub</a>
-        <button id="italianPractice" class="px-4 py-2 rounded-md bg-rose-500 text-white">练习意大利语</button>
-      </div>
-    </section>
+                <div class="card-popup">
+                    <div class="card-title">冒险者档案</div>
+                    <div class="card-subtitle">Huan the Nerd</div>
+                    <div class="card-content">
+                        <p>正在数据之海中探索的人类法师。随身携带一本写满代码符文的卷轴。</p>
+                        
+                        <div class="stats-row">
+                            <div class="stat-item"><label>INT</label><span>18</span></div>
+                            <div class="stat-item"><label>WIS</label><span>14</span></div>
+                            <div class="stat-item"><label>LUCK</label><span>20</span></div>
+                        </div>
 
-    <footer class="mt-8 text-center text-slate-400 text-sm">
-      <p>© 2025 — 个人主页</p>
-    </footer>
-  </div>
+                        <p style="font-size: 0.9rem; text-align:center; margin-top:10px;">
+                            <span style="color:#8a2c2c;">❤</span> 魔宠：白猫囧囧
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-  <script>
-    const toggle = document.getElementById('themeToggle');
-    toggle.addEventListener('click', () => {
-      document.documentElement.classList.toggle('light');
-      if (document.documentElement.classList.contains('light')) {
-        document.body.style.background = 'linear-gradient(180deg,#f8fafc,#e2e8f0)';
-        document.body.style.color = '#0f172a';
-      } else {
-        document.body.style.background = '';
-        document.body.style.color = '';
-      }
-    });
+            <div class="marker" style="top: 30%; left: 35%;" onclick="togglePopup(this)">
+                <svg class="marker-icon" viewBox="0 0 100 100">
+                    <path d="M50 10 L80 90 L20 90 Z" fill="#2c241b"/>
+                    <rect x="45" y="60" width="10" height="30" fill="#f3eacb"/>
+                </svg>
 
-    document.getElementById('italianPractice').addEventListener('click', () => {
-      const example = `Ciao! Vorrei esercitarmi a parlare italiano.`;
-      alert('示例短句已复制到剪贴板：\n' + example);
-      navigator.clipboard && navigator.clipboard.writeText(example).catch(()=>{});
-    });
-  </script>
+                <div class="card-popup">
+                    <div class="card-title">上古卷轴</div>
+                    <div class="card-subtitle">Blog Posts</div>
+                    <div class="card-content">
+                        <p>这里存放着关于技术与哲学的思考记录。</p>
+                        <ul class="link-list">
+                            <li><a href="#">前端炼金术笔记</a></li>
+                            <li><a href="#">龙与地下城跑团实录</a></li>
+                            <li><a href="#">关于爱沙尼亚的冬天</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="marker" style="top: 60%; left: 70%;" onclick="togglePopup(this)">
+                <svg class="marker-icon" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="30" stroke="#2c241b" stroke-width="5" fill="none"/>
+                    <circle cx="50" cy="50" r="10" fill="#8a2c2c"/>
+                </svg>
+
+                <div class="card-popup">
+                    <div class="card-title">记忆碎片</div>
+                    <div class="card-subtitle">Gallery & Vlog</div>
+                    <div class="card-content">
+                        <p>透过水晶球，你可以看到过去的影像。</p>
+                        <ul class="link-list">
+                            <li><a href="#">[相册] 欧洲游记</a></li>
+                            <li><a href="#">[相册] 囧囧的日常生活</a></li>
+                            <li><a href="#">[视频] 2024 年度总结</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function togglePopup(element) {
+            // 阻止冒泡，防止触发地图点击关闭事件
+            event.stopPropagation();
+            
+            // 如果当前已经激活，就关闭它
+            if (element.classList.contains('active')) {
+                element.classList.remove('active');
+                return;
+            }
+
+            // 先关闭所有其他的激活状态
+            document.querySelectorAll('.marker').forEach(m => m.classList.remove('active'));
+            
+            // 激活当前点击的
+            element.classList.add('active');
+        }
+
+        // 点击地图空白处，关闭所有弹窗
+        document.getElementById('mapContainer').addEventListener('click', function() {
+            document.querySelectorAll('.marker').forEach(m => m.classList.remove('active'));
+        });
+    </script>
 </body>
 </html>
