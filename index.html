@@ -7,11 +7,10 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=UnifrakturMaguntia&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jim+Nightshade&family=UnifrakturMaguntia&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* 基础颜色变量 */
             --bg-parchment: #f3eacb;
             --bg-card: #fffef0;
             --ink-color: #2c241b;
@@ -19,10 +18,10 @@
             --accent-red: #8a2c2c;
             --border-color: #8b7355;
             
-            /* 1. 字体变量定义 */
-            --font-title-fancy: 'UnifrakturMaguntia', cursive; /* 花哨标题 */
-            --font-body-en: 'Caveat', cursive;                 /* 英文手写 */
-            --font-body-zh: 'ZCOOL XiaoWei', serif;            /* 中文古风 */
+            /* 字体变量 */
+            --font-title-fancy: 'UnifrakturMaguntia', cursive; 
+            --font-body-en: 'Jim Nightshade', cursive; /* 已更新为 Jim Nightshade */
+            --font-body-zh: 'ZCOOL XiaoWei', serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -32,7 +31,7 @@
             height: 100vh;
             width: 100vw;
             overflow: hidden;
-            font-family: var(--font-body-en); /* 默认字体 */
+            font-family: var(--font-body-en);
             color: var(--ink-color);
         }
 
@@ -45,13 +44,14 @@
         .lang-switch {
             position: fixed;
             top: 20px; right: 20px; z-index: 10001;
-            padding: 5px 10px;
+            padding: 8px 12px;
             background: var(--bg-card);
             border: 2px solid var(--border-color);
             cursor: pointer;
             font-family: var(--font-body-zh);
             font-weight: bold;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            font-size: 0.9rem;
         }
 
         /* 地图视口 */
@@ -64,18 +64,18 @@
             background: #d4c5a3;
         }
 
-        /* 2. 背景地图设置 */
+        /* 背景地图层 */
         .map-layer {
             position: relative;
-            min-width: 1600px; 
-            min-height: 1200px;
             display: block;
-            /* 这里使用了你提供的新链接 */
             background-image: url('https://i.redd.it/36tc6drz7gu51.jpg');
             background-size: cover;
             background-position: center;
-            /* 稍微加一点滤镜让它看起来更旧 */
-            filter: sepia(0.3) contrast(1.05); 
+            filter: sepia(0.3) contrast(1.1); 
+            
+            /* 电脑端默认逻辑：大地图，可拖拽 */
+            min-width: 1600px; 
+            min-height: 1200px;
         }
 
         /* 全屏暗角遮罩 */
@@ -110,32 +110,29 @@
             stroke-width: 1.5;
             transition: transform 0.2s;
         }
-        .marker:hover .marker-icon { transform: scale(1.1); }
+        @media (min-width: 769px) {
+            .marker:hover .marker-icon { transform: scale(1.1); }
+        }
 
-        /* ------ 3. 华丽的弹窗卡片 (Card Popup) ------ */
+        /* ------ 卡片弹窗 (Card Popup) ------ */
         .card-popup {
             position: absolute;
-            bottom: 80px; 
-            left: 50%;
-            transform: translateX(-50%);
-            width: 350px;
-            
+            z-index: 100;
             background-color: var(--bg-card);
             
-            /* 【核心修改】：双线边框 + Outline */
+            /* 华丽边框设计 */
             border: 3px double var(--border-color);
             outline: 1px solid var(--border-color);
-            outline-offset: 4px; /* 轮廓线稍微往外扩一点 */
+            outline-offset: 4px;
             
-            padding: 25px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             
             opacity: 0; visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             pointer-events: none;
         }
 
-        /* 装饰性角标 (十字花纹) */
+        /* 装饰性角标 */
         .card-popup::before, .card-popup::after {
             position: absolute;
             font-family: serif; font-size: 24px;
@@ -144,15 +141,23 @@
         .card-popup::before { content: "✥"; top: 3px; left: 3px; }
         .card-popup::after { content: "✥"; bottom: 3px; right: 3px; }
 
-        .marker.active .card-popup, .marker:hover .card-popup {
-            opacity: 1; visibility: visible;
-            pointer-events: auto;
-            transform: translateX(-50%) translateY(-10px);
+        /* 电脑端卡片样式 */
+        @media (min-width: 769px) {
+            .card-popup {
+                bottom: 80px; 
+                left: 50%;
+                transform: translateX(-50%);
+                width: 350px;
+                padding: 25px 20px;
+            }
+            .marker.active .card-popup, .marker:hover .card-popup {
+                opacity: 1; visibility: visible;
+                pointer-events: auto;
+                transform: translateX(-50%) translateY(-10px);
+            }
         }
 
-        /* ------ 字体应用规则 ------ */
-        
-        /* 标题字体设置 */
+        /* ------ 内容排版 ------ */
         .card-title {
             font-size: 2rem;
             text-align: center;
@@ -161,62 +166,105 @@
             padding-bottom: 10px;
             color: var(--accent-red);
         }
-        /* 中文标题用古风体 */
         .card-title.content-zh { font-family: var(--font-body-zh); font-weight: bold; }
-        /* 英文标题用中世纪花哨体 */
         .card-title.content-en { font-family: var(--font-title-fancy); letter-spacing: 1px; }
 
-        /* 副标题设置 */
         .card-subtitle {
-            font-size: 1.1rem; text-align: center;
+            font-size: 1.2rem; text-align: center;
             color: var(--ink-light); margin-bottom: 15px;
         }
         .card-subtitle.content-zh { font-family: var(--font-body-zh); }
-        .card-subtitle.content-en { font-family: var(--font-body-en); font-weight: 700; text-transform: uppercase;}
+        .card-subtitle.content-en { font-family: var(--font-body-en); font-style: normal; font-size: 1.4rem; }
 
-        /* 正文设置 */
-        .card-content { font-size: 1.1rem; line-height: 1.6; }
+        .card-content { font-size: 1.15rem; line-height: 1.5; }
         .card-content .content-zh { font-family: var(--font-body-zh); }
-        .card-content .content-en { font-family: var(--font-body-en); font-size: 1.3rem; /* 手写体稍微大一点才清晰 */ }
+        /* 英文正文使用 Jim Nightshade，稍微加大字号以保证易读性 */
+        .card-content .content-en { font-family: var(--font-body-en); font-size: 1.4rem; }
 
-        /* 属性表格 */
         .stats-row { display: flex; justify-content: space-around; margin: 15px 0; border-top: 1px dashed var(--ink-light); border-bottom: 1px dashed var(--ink-light); padding: 10px 0;}
         .stat-item { text-align: center; }
-        .stat-item label { font-size: 0.8rem; display: block; font-weight: bold; font-family: var(--font-title-fancy); letter-spacing: 1px;}
-        .stat-item span { font-size: 1.4rem; font-family: var(--font-title-fancy); }
+        .stat-item label { font-size: 0.9rem; display: block; font-weight: bold; font-family: var(--font-title-fancy); letter-spacing: 1px;}
+        .stat-item span { font-size: 1.5rem; font-family: var(--font-title-fancy); }
 
         .link-list { list-style: none; margin-top: 10px; }
-        .link-list a { text-decoration: none; color: var(--ink-color); display: flex; align-items: center; padding: 5px 0; transition: color 0.2s;}
+        .link-list a { text-decoration: none; color: var(--ink-color); display: flex; align-items: center; padding: 8px 0; transition: color 0.2s; border-bottom: 1px dotted rgba(0,0,0,0.1);}
         .link-list a:hover { color: var(--accent-red); }
-        .link-list .content-zh { font-family: var(--font-body-zh); }
-        .link-list .content-en { font-family: var(--font-body-en); font-size: 1.2rem; font-weight: bold;}
+        .link-list .content-zh { font-family: var(--font-body-zh); font-size: 1.1rem;}
+        .link-list .content-en { font-family: var(--font-body-en); font-size: 1.4rem; }
 
-        /* 移动端适配 */
+
+        /* ========================================= */
+        /* 📱 移动端深度适配 (Mobile Optimization)   */
+        /* ========================================= */
         @media (max-width: 768px) {
-            .card-popup {
-                position: fixed; top: auto; bottom: 20px; left: 50%;
-                transform: translateX(-50%) translateY(20px);
-                width: 95%; max-width: 450px; padding: 15px 10px;
+            
+            /* 1. 地图改为铺满屏幕，不滚动 */
+            .map-layer {
+                min-width: 100%;
+                min-height: 100%;
+                width: 100vw;
+                height: 100vh;
+                background-size: cover; 
+                background-position: center;
             }
-            .marker.active .card-popup { transform: translateX(-50%) translateY(0); }
-            .stats-row { flex-wrap: wrap; gap: 10px; }
-            .stat-item { flex: 1 1 30%; }
+
+            .marker { width: 70px; height: 70px; }
+            
+            /* 3. 卡片改为底部抽屉式 (Bottom Sheet) */
+            .card-popup {
+                position: fixed; 
+                top: auto; 
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%; 
+                transform: translateY(110%); 
+                
+                border-radius: 20px 20px 0 0; 
+                border-bottom: none; 
+                padding: 30px 25px 50px 25px; 
+                
+                outline: none;
+                border-left: none;
+                border-right: none;
+                border-top: 4px double var(--border-color);
+            }
+
+            .marker.active .card-popup {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
+
+            /* 4. 移动端字体与布局调整 */
+            .card-title { font-size: 1.8rem; }
+            .card-content .content-zh { font-size: 1.1rem; }
+            .card-content .content-en { font-size: 1.5rem; } /* 移动端 Jim Nightshade 再大一点 */
+            
+            .stats-row { gap: 15px; }
+            .stat-item span { font-size: 1.4rem; }
+            
+            .link-list a { padding: 12px 0; }
+            .link-list .content-en { font-size: 1.4rem; }
+
+            .lang-switch { top: 15px; right: 15px; padding: 6px 10px; }
         }
     </style>
 </head>
 <body class="lang-zh">
 
     <div class="lang-switch" onclick="switchLanguage()">
-        <span class="content-zh">English Version</span>
-        <span class="content-en">切换为中文</span>
+        <span class="content-zh"> EN </span>
+        <span class="content-en"> 中文 </span>
     </div>
 
     <div class="vignette-overlay"></div>
 
     <div class="map-viewport" id="mapContainer">
-        <div class="map-layer" style="width: 1600px; height: 1200px;">
+        <div class="map-layer">
             
-            <div class="marker" style="top: 45%; left: 52%;" onclick="togglePopup(this)">
+            <div class="marker" style="top: 50%; left: 50%;" onclick="togglePopup(this)">
                 <svg class="marker-icon" viewBox="0 0 100 100" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="50" cy="50" r="45" fill="#f3eacb" stroke-width="2"/>
                     <path d="M50 5 L50 95 M5 50 L95 50" stroke-width="1.5" stroke="#8b7355"/>
@@ -228,28 +276,28 @@
                     <div class="card-title content-zh">冒险者档案</div>
                     <div class="card-title content-en">Adventurer Profile</div>
                     
-                    <div class="card-subtitle content-zh">Huan the Nerd</div>
-                    <div class="card-subtitle content-en">Human Scholar</div>
+                    <div class="card-subtitle content-zh">Huan the Nerd (Lv 10)</div>
+                    <div class="card-subtitle content-en">Human the Nerd (Lv 10)</div>
                     
                     <div class="card-content">
-                        <p class="content-zh">正在数据之海中探索的人类法师。随身携带一本写满代码符文的卷轴。</p>
-                        <p class="content-en">A human wizard exploring the digital seas. Always carries a scroll filled with coding runes.</p>
+                        <p class="content-zh">带有“金鱼的记忆”诅咒的冒险者，羽毛球配音演员，过去十年做得最多的是翻译/本地化</p>
+                        <p class="content-en">An adventurer cusrsed with the Memory of a Goldfish, voice actress for badminton games, translator for the past decade.</p>
                         
                         <div class="stats-row">
-                            <div class="stat-item"><label>INT</label><span>18</span></div>
-                            <div class="stat-item"><label>WIS</label><span>14</span></div>
-                            <div class="stat-item"><label>CHA</label><span>16</span></div>
+                            <div class="stat-item"><label>STR</label><span>16</span></div>
+                            <div class="stat-item"><label>CON</label><span>14</span></div> 
+                            <div class="stat-item"><label>CHA</label><span>12</span></div>
                         </div>
 
                         <p style="text-align:center; margin-top:10px;">
                             <span class="content-zh">❤ 魔宠：白猫囧囧</span>
-                            <span class="content-en">❤ Familiar: Jiong Jiong</span>
+                            <span class="content-en">❤ Familiar: Jiong Jiong (囧囧)</span>
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div class="marker" style="top: 30%; left: 35%;" onclick="togglePopup(this)">
+            <div class="marker" style="top: 30%; left: 30%;" onclick="togglePopup(this)">
                 <svg class="marker-icon" viewBox="0 0 100 100" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="50" cy="50" r="45" fill="#f3eacb" stroke-width="2"/>
                     <rect x="25" y="30" width="50" height="40" rx="5" fill="#fffef0" stroke="#2c241b" stroke-width="2"/>
@@ -260,22 +308,22 @@
                 </svg>
 
                 <div class="card-popup">
-                    <div class="card-title content-zh">上古卷轴</div>
-                    <div class="card-title content-en">Library of Scrolls</div>
+                    <div class="card-title content-zh">卷轴</div>
+                    <div class="card-title content-en">Scrolls</div>
                     
                     <div class="card-content">
                         <p class="content-zh">这里存放着关于技术与哲学的思考记录。</p>
                         <p class="content-en">Records of thoughts on technology and philosophy.</p>
                         <ul class="link-list">
-                            <li><a href="#"><span class="content-zh">✦ 前端炼金术笔记</span><span class="content-en">✦ Front-end Alchemy Notes</span></a></li>
-                            <li><a href="#"><span class="content-zh">✦ 龙与地下城跑团实录</span><span class="content-en">✦ D&D Session Logs</span></a></li>
-                            <li><a href="#"><span class="content-zh">✦ 关于爱沙尼亚的冬天</span><span class="content-en">✦ Notes on Estonian Winter</span></a></li>
+                            <li><a href="#"><span class="content-zh">✦ 梦帐</span><span class="content-en">✦ Dreams</span></a></li>
+                            <li><a href="#"><span class="content-zh">✦ 跑团战报</span><span class="content-en">✦ D&D Adventure Logs</span></a></li>
+                            <li><a href="#"><span class="content-zh">✦ AI辅助翻译作品</span><span class="content-en">✦ AI-enhanced Translations</span></a></li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="marker" style="top: 60%; left: 70%;" onclick="togglePopup(this)">
+            <div class="marker" style="top: 70%; left: 70%;" onclick="togglePopup(this)">
                 <svg class="marker-icon" viewBox="0 0 100 100" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="50" cy="50" r="45" fill="#f3eacb" stroke-width="2"/>
                     <circle cx="50" cy="35" r="25" fill="#fffef0" stroke="#2c241b" stroke-width="2"/>
@@ -291,8 +339,8 @@
                         <p class="content-zh">透过水晶球，你可以看到过去的影像。</p>
                         <p class="content-en">View images and recordings from the past.</p>
                         <ul class="link-list">
-                            <li><a href="#"><span class="content-zh">✦ [相册] 欧洲游记</span><span class="content-en">✦ [Gallery] European Travels</span></a></li>
-                            <li><a href="#"><span class="content-zh">✦ [视频] 2024 年度总结</span><span class="content-en">✦ [Video] 2024 Year End Summary</span></a></li>
+                            <li><a href="#"><span class="content-zh">✦ [相册] 魔宠</span><span class="content-en">✦ [Gallery] Familiar</span></a></li>
+                            <li><a href="#"><span class="content-zh">✦ [视频] 精选内容</span><span class="content-en">✦ [Video] Selects</span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -309,6 +357,7 @@
             currentLang = body.classList.contains('lang-zh') ? 'en' : 'zh';
             body.classList.remove('lang-zh', 'lang-en');
             body.classList.add(`lang-${currentLang}`);
+            // 切换语言时关闭弹窗
             document.querySelectorAll('.marker').forEach(m => m.classList.remove('active'));
         }
         
@@ -317,22 +366,20 @@
         });
 
         function togglePopup(element) {
-            event.stopPropagation();
-            const isMobile = window.matchMedia("(max-width: 768px)").matches;
-            if (isMobile) {
-                if (element.classList.contains('active')) {
-                    element.classList.remove('active');
-                    return;
-                }
-                document.querySelectorAll('.marker').forEach(m => m.classList.remove('active'));
+            event.stopPropagation(); // 防止冒泡触发背景关闭
+            
+            const isActive = element.classList.contains('active');
+            
+            // 1. 先关闭所有弹窗
+            document.querySelectorAll('.marker').forEach(m => m.classList.remove('active'));
+            
+            // 2. 如果刚才没激活，现在就激活 (实现点击开关 toggle 效果)
+            if (!isActive) {
                 element.classList.add('active');
-            } else {
-                const isActive = element.classList.contains('active');
-                document.querySelectorAll('.marker').forEach(m => m.classList.remove('active'));
-                if (!isActive) element.classList.add('active');
             }
         }
 
+        // 点击空白处关闭所有弹窗
         document.getElementById('mapContainer').addEventListener('click', function() {
             document.querySelectorAll('.marker').forEach(m => m.classList.remove('active'));
         });
