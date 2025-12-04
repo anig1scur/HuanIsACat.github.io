@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jim+Nightshade&family=UnifrakturMaguntia&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jim+Nightshade&family=UnifrakturMaguntia&family=ZCOOL+XiaoWei&family=Pirata+One&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -20,8 +20,9 @@
             
             /* 字体变量 */
             --font-title-fancy: 'UnifrakturMaguntia', cursive; 
-            --font-body-en: 'Jim Nightshade', cursive; /* 已更新为 Jim Nightshade */
+            --font-body-en: 'Jim Nightshade', cursive; 
             --font-body-zh: 'ZCOOL XiaoWei', serif;
+            --font-stats: 'Pirata One', cursive;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -66,17 +67,15 @@
 
         /* 背景地图层 */
         .map-layer {
-            position: relative;
-            display: block;
-            background-image: url('https://i.redd.it/36tc6drz7gu51.jpg');
-            background-size: cover;
-            background-position: center;
-            filter: sepia(0.3) contrast(1.1); 
-            
-            /* 电脑端默认逻辑：大地图，可拖拽 */
-            min-width: 1600px; 
-            min-height: 1200px;
-        }
+    background-repeat: no-repeat;
+    position: relative;
+    display: block;
+    background-image: url(https://i.redd.it/36tc6drz7gu51.jpg);
+    background-size: cover;
+    /* background-position: center; */
+    filter: sepia(0.3) contrast(1.1);
+    /* min-width: 1600px; */
+    min-height: 1200px;        }
 
         /* 全屏暗角遮罩 */
         .vignette-overlay {
@@ -97,6 +96,10 @@
             animation: float 3s ease-in-out infinite;
         }
         .marker:hover { filter: drop-shadow(0 0 8px rgba(255, 250, 240, 0.6)); }
+        .marker:hover,
+.marker.active {
+    z-index: 9999 !important; /* 让当前操作的这个图标，凌驾于所有其他图标之上 */
+}
 
         @keyframes float {
             0%, 100% { transform: translate(-50%, -50%) translateY(0); }
@@ -113,6 +116,14 @@
         @media (min-width: 769px) {
             .marker:hover .marker-icon { transform: scale(1.1); }
         }
+        .mage-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 保持图片比例 */
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
+            transition: transform 0.2s;
+        }
+        .marker:hover .mage-img { transform: scale(1.1) rotate(-5deg); }
 
         /* ------ 卡片弹窗 (Card Popup) ------ */
         .card-popup {
@@ -130,6 +141,10 @@
             opacity: 0; visibility: hidden;
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             pointer-events: none;
+            position: fixed; /* 关键点 1 */
+            left: 0;         /* 关键点 2 */
+            right: 0;        /* 关键点 3 */
+            width: 100vw;    /* 关键点 4 */
         }
 
         /* 装饰性角标 */
@@ -142,21 +157,23 @@
         .card-popup::after { content: "✥"; bottom: 3px; right: 3px; }
 
         /* 电脑端卡片样式 */
-        @media (min-width: 769px) {
-            .card-popup {
-                bottom: 80px; 
-                left: 50%;
-                transform: translateX(-50%);
-                width: 350px;
-                padding: 25px 20px;
-            }
-            .marker.active .card-popup, .marker:hover .card-popup {
-                opacity: 1; visibility: visible;
-                pointer-events: auto;
-                transform: translateX(-50%) translateY(-10px);
-            }
-        }
-
+       /* 💻 电脑端适配 (Desktop) */
+@media (min-width: 769px) {
+    .card-popup {
+        bottom: 80px; 
+        left: 50%;
+        transform: translateX(-50%);
+        width: 350px;
+        padding: 25px 20px;
+    }
+    
+    .marker:hover .card-popup {
+        opacity: 1; 
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
         /* ------ 内容排版 ------ */
         .card-title {
             font-size: 2rem;
@@ -183,8 +200,8 @@
 
         .stats-row { display: flex; justify-content: space-around; margin: 15px 0; border-top: 1px dashed var(--ink-light); border-bottom: 1px dashed var(--ink-light); padding: 10px 0;}
         .stat-item { text-align: center; }
-        .stat-item label { font-size: 0.9rem; display: block; font-weight: bold; font-family: var(--font-title-fancy); letter-spacing: 1px;}
-        .stat-item span { font-size: 1.5rem; font-family: var(--font-title-fancy); }
+        .stat-item label { font-size: 0.9rem; display: block; font-weight: bold; font-family: var(--font-stats); letter-spacing: 1px;}
+        .stat-item span { font-size: 1.5rem; font-family: var(--font-stats); }
 
         .link-list { list-style: none; margin-top: 10px; }
         .link-list a { text-decoration: none; color: var(--ink-color); display: flex; align-items: center; padding: 8px 0; transition: color 0.2s; border-bottom: 1px dotted rgba(0,0,0,0.1);}
@@ -195,61 +212,80 @@
 
         /* ========================================= */
         /* 📱 移动端深度适配 (Mobile Optimization)   */
-        /* ========================================= */
-        @media (max-width: 768px) {
-            
-            /* 1. 地图改为铺满屏幕，不滚动 */
-            .map-layer {
-                min-width: 100%;
-                min-height: 100%;
-                width: 100vw;
-                height: 100vh;
-                background-size: cover; 
-                background-position: center;
-            }
 
-            .marker { width: 70px; height: 70px; }
-            
-            /* 3. 卡片改为底部抽屉式 (Bottom Sheet) */
-            .card-popup {
-                position: fixed; 
-                top: auto; 
-                bottom: 0;
-                left: 0;
-                right: 0;
-                width: 100%; 
-                transform: translateY(110%); 
-                
-                border-radius: 20px 20px 0 0; 
-                border-bottom: none; 
-                padding: 30px 25px 50px 25px; 
-                
-                outline: none;
-                border-left: none;
-                border-right: none;
-                border-top: 4px double var(--border-color);
-            }
+@media (max-width: 768px) {
+    
+    /* 1. 地图铺满 */
+    .map-layer {
+        min-width: 100%; min-height: 100%;
+        width: 100vw; height: 100vh;
+        background-size: cover; 
+        background-position: center;
+    }
 
-            .marker.active .card-popup {
-                opacity: 1;
-                visibility: visible;
-                transform: translateY(0);
-                pointer-events: auto;
-            }
+    /* 2. 图标修复：解除动画限制 */
+    .marker { 
+        width: 80px; height: 80px;
+        transform: none !important; 
+        animation: none !important; 
+        margin-left: -40px; 
+        margin-top: -40px; 
+        pointer-events: auto;
+    }
+    
+    .marker:hover { filter: none !important; }
+    .marker:hover .marker-icon { transform: none !important; }
+    .marker:hover .mage-img { transform: none !important; }
 
-            /* 4. 移动端字体与布局调整 */
-            .card-title { font-size: 1.8rem; }
-            .card-content .content-zh { font-size: 1.1rem; }
-            .card-content .content-en { font-size: 1.5rem; } /* 移动端 Jim Nightshade 再大一点 */
-            
-            .stats-row { gap: 15px; }
-            .stat-item span { font-size: 1.4rem; }
-            
-            .link-list a { padding: 12px 0; }
-            .link-list .content-en { font-size: 1.4rem; }
+    .marker:hover .card-popup { 
+        opacity: 0 !important; 
+        visibility: hidden !important; 
+    }
 
-            .lang-switch { top: 15px; right: 15px; padding: 6px 10px; }
-        }
+    /* 3. 卡片样式：80% 宽度 + 居中 + 底部悬浮 */
+    .card-popup {
+        position: fixed; 
+        top: auto; 
+        bottom: 30px; /* 离底部留一点空隙，像个浮动的卡片 */
+        
+        /* 核心修改：实现 80% 宽度并居中 */
+        left: 50% !important;  /* 先定在屏幕正中间 */
+        width: 80vw !important; /* 宽度设为视口宽度的 80% */
+        margin: 0 !important;
+        
+        /* 默认隐藏状态：向下位移 120% + 水平居中修正 (-50%) */
+        transform: translate(-50%, 120%); 
+        
+        border-radius: 20px; /* 四周都变成圆角 */
+        padding: 30px 20px; 
+        
+        outline: none;
+        border-left: none; border-right: none;
+        border-top: 4px double var(--border-color);
+        border-bottom: 4px double var(--border-color); /* 底部也加回边框，因为悬空了 */
+        
+        max-height: 70vh; /* 防止太高挡住地图 */
+        overflow-y: auto;
+    }
+
+    /* 4. 激活状态 (Active) */
+    .marker.active .card-popup {
+        opacity: 1 !important; 
+        visibility: visible !important;
+        /* 激活显示：水平居中 (-50%) + 垂直归位 (0) */
+        transform: translate(-50%, 0) !important; 
+        pointer-events: auto;
+    }
+
+    /* 字体与间距适配 */
+    .card-title { font-size: 1.6rem; }
+    .card-content .content-zh { font-size: 1rem; }
+    .card-content .content-en { font-size: 1.3rem; } 
+    .stats-row { gap: 10px; }
+    .stat-item span { font-size: 1.8rem; }
+    .link-list a { padding: 10px 0; }
+    .lang-switch { top: 15px; right: 15px; padding: 6px 10px; }
+}
     </style>
 </head>
 <body class="lang-zh">
@@ -264,13 +300,8 @@
     <div class="map-viewport" id="mapContainer">
         <div class="map-layer">
             
-            <div class="marker" style="top: 50%; left: 50%;" onclick="togglePopup(this)">
-                <svg class="marker-icon" viewBox="0 0 100 100" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="50" cy="50" r="45" fill="#f3eacb" stroke-width="2"/>
-                    <path d="M50 5 L50 95 M5 50 L95 50" stroke-width="1.5" stroke="#8b7355"/>
-                    <path d="M50 20 C35 25 30 50 30 65 C30 80 50 85 50 85 C50 85 70 80 70 65 C70 50 65 25 50 20 Z" fill="#2c241b" stroke="none"/>
-                    <circle cx="50" cy="55" r="5" fill="#f3eacb"/>
-                </svg>
+           <div class="marker" style="top: 50%; left: 50%;" onclick="togglePopup(this)">
+                <img src="mage.png" class="mage-img" alt="Mage">
 
                 <div class="card-popup">
                     <div class="card-title content-zh">冒险者档案</div>
@@ -340,7 +371,7 @@
                         <p class="content-en">View images and recordings from the past.</p>
                         <ul class="link-list">
                             <li><a href="#"><span class="content-zh">✦ [相册] 魔宠</span><span class="content-en">✦ [Gallery] Familiar</span></a></li>
-                            <li><a href="#"><span class="content-zh">✦ [视频] 精选内容</span><span class="content-en">✦ [Video] Selects</span></a></li>
+                            <li><a href="story-dany.html"><span class="content-zh">✦ 精选内容</span><span class="content-en">✦ Selects</span></a></li>
                         </ul>
                     </div>
                 </div>
