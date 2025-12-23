@@ -116,14 +116,14 @@
         @media (min-width: 769px) {
             .marker:hover .marker-icon { transform: scale(1.1); }
         }
-        .mage-img {
+        .marker-img {
             width: 100%;
             height: 100%;
             object-fit: contain; /* 保持图片比例 */
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
             transition: transform 0.2s;
         }
-        .marker:hover .mage-img { transform: scale(1.1) rotate(-5deg); }
+        .marker:hover .marker-img { transform: scale(1.1) rotate(-5deg); }
 
         /* ------ 卡片弹窗 (Card Popup) ------ */
         .card-popup {
@@ -235,7 +235,7 @@
     
     .marker:hover { filter: none !important; }
     .marker:hover .marker-icon { transform: none !important; }
-    .marker:hover .mage-img { transform: none !important; }
+    .marker:hover .marker-img { transform: none !important; }
 
     .marker:hover .card-popup { 
         opacity: 0 !important; 
@@ -297,123 +297,10 @@
 
     <div class="vignette-overlay"></div>
 
-    <div class="map-viewport" id="mapContainer">
-        <div class="map-layer">
-            
-           <div class="marker" style="top: 50%; left: 50%;" onclick="togglePopup(this)">
-                <img src="mage.png" class="mage-img" alt="Mage">
-
-                <div class="card-popup">
-                    <div class="card-title content-zh">冒险者档案</div>
-                    <div class="card-title content-en">Adventurer Profile</div>
-                    
-                    <div class="card-subtitle content-zh">Huan the Nerd (Lv 10)</div>
-                    <div class="card-subtitle content-en">Human the Nerd (Lv 10)</div>
-                    
-                    <div class="card-content">
-                        <p class="content-zh">带有“金鱼的记忆”诅咒的冒险者，羽毛球配音演员，过去十年做得最多的是翻译/本地化</p>
-                        <p class="content-en">An adventurer cusrsed with the Memory of a Goldfish, voice actress for badminton games, translator for the past decade.</p>
-                        
-                        <div class="stats-row">
-                            <div class="stat-item"><label>STR</label><span>16</span></div>
-                            <div class="stat-item"><label>CON</label><span>14</span></div> 
-                            <div class="stat-item"><label>CHA</label><span>12</span></div>
-                        </div>
-
-                        <p style="text-align:center; margin-top:10px;">
-                            <span class="content-zh">❤ 魔宠：白猫囧囧</span>
-                            <span class="content-en">❤ Familiar: Jiong Jiong (囧囧)</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="marker" style="top: 30%; left: 30%;" onclick="togglePopup(this)">
-                <svg class="marker-icon" viewBox="0 0 100 100" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="50" cy="50" r="45" fill="#f3eacb" stroke-width="2"/>
-                    <rect x="25" y="30" width="50" height="40" rx="5" fill="#fffef0" stroke="#2c241b" stroke-width="2"/>
-                    <rect x="20" y="30" width="5" height="40" fill="#8b7355"/>
-                    <rect x="75" y="30" width="5" height="40" fill="#8b7355"/>
-                    <path d="M75 25 L85 15 L85 20 L75 30 Z" fill="#2c241b" stroke="none"/>
-                    <line x1="75" y1="25" x2="60" y2="40" stroke="#2c241b" stroke-width="2"/>
-                </svg>
-
-                <div class="card-popup">
-                    <div class="card-title content-zh">卷轴</div>
-                    <div class="card-title content-en">Scrolls</div>
-                    
-                    <div class="card-content">
-                        <p class="content-zh">这里存放着关于技术与哲学的思考记录。</p>
-                        <p class="content-en">Records of thoughts on technology and philosophy.</p>
-                        <ul class="link-list">
-                            <li><a href="#"><span class="content-zh">✦ 梦帐</span><span class="content-en">✦ Dreams</span></a></li>
-                            <li><a href="#"><span class="content-zh">✦ 跑团战报</span><span class="content-en">✦ D&D Adventure Logs</span></a></li>
-                            <li><a href="#"><span class="content-zh">✦ AI辅助翻译作品</span><span class="content-en">✦ AI-enhanced Translations</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="marker" style="top: 70%; left: 70%;" onclick="togglePopup(this)">
-                <svg class="marker-icon" viewBox="0 0 100 100" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="50" cy="50" r="45" fill="#f3eacb" stroke-width="2"/>
-                    <circle cx="50" cy="35" r="25" fill="#fffef0" stroke="#2c241b" stroke-width="2"/>
-                    <path d="M30 60 L70 60 L65 70 L35 70 Z" fill="#8b7355" stroke="#2c241b" stroke-width="1"/>
-                    <circle cx="55" cy="30" r="5" fill="#f3eacb" opacity="0.8"/>
-                </svg>
-
-                <div class="card-popup">
-                    <div class="card-title content-zh">记忆碎片</div>
-                    <div class="card-title content-en">Crystal Visions</div>
-                    
-                    <div class="card-content">
-                        <p class="content-zh">透过水晶球，你可以看到过去的影像。</p>
-                        <p class="content-en">View images and recordings from the past.</p>
-                        <ul class="link-list">
-                            <li><a href="#"><span class="content-zh">✦ [相册] 魔宠</span><span class="content-en">✦ [Gallery] Familiar</span></a></li>
-                            <li><a href="story-dany.html"><span class="content-zh">✦ 精选内容</span><span class="content-en">✦ Selects</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
+<div class="map-viewport" id="mapContainer">
+    <div class="map-layer" id="mapLayer">
         </div>
-    </div>
-
-    <script>
-        let currentLang = 'zh';
-
-        function switchLanguage() {
-            const body = document.body;
-            currentLang = body.classList.contains('lang-zh') ? 'en' : 'zh';
-            body.classList.remove('lang-zh', 'lang-en');
-            body.classList.add(`lang-${currentLang}`);
-            // 切换语言时关闭弹窗
-            document.querySelectorAll('.marker').forEach(m => m.classList.remove('active'));
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.add('lang-zh'); 
-        });
-
-        function togglePopup(element) {
-            event.stopPropagation(); // 防止冒泡触发背景关闭
-            
-            const isActive = element.classList.contains('active');
-            
-            // 1. 先关闭所有弹窗
-            document.querySelectorAll('.marker').forEach(m => m.classList.remove('active'));
-            
-            // 2. 如果刚才没激活，现在就激活 (实现点击开关 toggle 效果)
-            if (!isActive) {
-                element.classList.add('active');
-            }
-        }
-
-        // 点击空白处关闭所有弹窗
-        document.getElementById('mapContainer').addEventListener('click', function() {
-            document.querySelectorAll('.marker').forEach(m => m.classList.remove('active'));
-        });
-    </script>
+</div>
+    <script src="adventure-map.js"></script>
 </body>
 </html>
