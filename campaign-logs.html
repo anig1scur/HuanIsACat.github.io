@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Pirata+One&family=Noto+Serif+SC:wght@600&family=MedievalSharp&display=swap" rel="stylesheet">
+  
+  <title>吟游诗篇 · Psalms of the Wanderer</title>
+  
+  <style>
+    :root {
+      --bg-dark: #a68d71;           
+      --card-bg: #d9c5b2;           
+      --border-color: #8c735a;      
+      --text-main: #2a2118;         
+      --accent-gold: #7d512d;       
+      --accent-red: #823025;        
+      
+      --tag-event-bg: #4a5a6a;      
+      --tag-loc-bg: #4e5a4f;        
+      --tag-char-bg: #6b5641;       
+      --tag-loot-bg: #5a415e;       
+      --tag-text: #fdfaf3;          
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)),
+                  url('https://www.transparenttextures.com/patterns/handmade-paper.png'), var(--bg-dark);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: 'Noto Serif SC', serif;
+      line-height: 1.8;
+    }
+
+    header {
+      padding: 100px 5vw 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'ZCOOL KuaiLe', cursive;
+      font-size: 5em;
+      color: var(--accent-gold);
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      letter-spacing: 0.1em;
+    }
+
+    .subtitle {
+      font-family: 'Pirata One', system-ui;
+      font-size: 2.2em;
+      color: var(--accent-red);
+      margin-top: 5px;
+      display: block;
+      letter-spacing: 3px;
+    }
+
+    main {
+      padding: 0 5vw 60px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .log-entry {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      box-shadow: 6px 6px 15px rgba(0,0,0,0.1);
+      padding: 40px;
+      margin-bottom: 50px;
+      text-decoration: none;
+      display: block;
+      transition: all 0.4s ease-out;
+      position: relative;
+    }
+
+    .log-entry:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-gold);
+      background: #e3d5c5; 
+      box-shadow: 12px 12px 30px rgba(0,0,0,0.15);
+    }
+
+    h3 {
+      font-family: 'ZCOOL KuaiLe', serif;
+      font-size: 2.4em;
+      color: var(--text-main);
+      margin: 0 0 20px 0;
+      border-bottom: 1px double var(--border-color);
+      display: inline-block;
+      padding-bottom: 10px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .tag {
+      padding: 5px 14px;
+      font-size: 0.9em;
+      color: var(--tag-text);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .tag.event { background: var(--tag-event-bg); }
+    .tag.loc { background: var(--tag-loc-bg); }
+    .tag.char { background: var(--tag-char-bg); }
+    .tag.loot { background: var(--tag-loot-bg); border: 1px solid var(--accent-gold); }
+
+    .tag b { color: #dfc7af; margin-right: 6px; font-weight: 600; opacity: 0.9; }
+
+    .excerpt {
+      font-size: 1.15em;
+      color: #4a3f35;
+      font-style: italic;
+      line-height: 1.9;
+      padding-left: 15px;
+      border-left: 3px solid var(--border-color);
+    }
+
+    .read-more {
+      font-family: 'Pirata One', serif;
+      color: var(--accent-red);
+      letter-spacing: 2px;
+      font-size: 1.3em;
+      display: block;
+      margin-top: 25px;
+    }
+
+    /* 底部按钮区域 */
+    .bottom-nav {
+      text-align: center;
+      padding: 40px 0 20px;
+    }
+
+    .back-to-map {
+      display: inline-block;
+      text-decoration: none;
+      font-family: 'Noto Serif SC', serif;
+      color: var(--accent-red); 
+      font-size: 1.1em;
+      padding: 12px 30px;
+      border: 1px solid var(--border-color);
+      background: #c6b29d; 
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .back-to-map span {
+      font-family: 'Pirata One', serif;
+      font-size: 1.2em;
+      margin-left: 5px;
+      color: var(--accent-red); /* 英文保持红色作为点缀 */
+    }
+
+    .back-to-map:hover {
+      /* Hover 时变回明亮的卡片色 */
+      background: var(--card-bg); 
+      color: var(--accent-red); /* 鼠标移上去时中文也变红，增加反馈感 */
+      border-color: var(--accent-gold);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 5vw 80px;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1em;
+      color: var(--accent-gold);
+      opacity: 0.8;
+      border-top: 1px solid var(--border-color);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>吟游诗篇</h1>
+  <span class="subtitle">Psalms of the Wanderer</span>
+</header>
+
+<main>
+  <a href="report-01.html" class="log-entry">
+    <h3>卷十四：黑牙矿井的覆灭</h3>
+    <div class="tags">
+      <span class="tag event"><b>记录:</b> 遭遇战</span>
+      <span class="tag loc"><b>地标:</b> 纳斯雷兹大矿洞</span>
+      <span class="tag char"><b>同行者:</b> 艾拉, 托宾</span>
+      <span class="tag loot"><b>战利品:</b> 幽冥铁矿、仪式短剑</span>
+    </div>
+    <p class="excerpt">
+      “矿道内弥漫着令人窒息的硫磺味。当艾拉的圣光照亮转角处时，我们才发现自己早已被无数双猩红的眼睛包围。那是食尸鬼的盛宴，而我们是不请自来的主菜……”
+    </p>
+    <span class="read-more">READ THE CHRONICLE...</span>
+  </a>
+
+  <a href="report-02.html" class="log-entry">
+    <h3>卷十五：迷雾中的交易</h3>
+    <div class="tags">
+      <span class="tag event"><b>记录:</b> 交涉</span>
+      <span class="tag loc"><b>地标:</b> 永冬森林</span>
+      <span class="tag char"><b>同行者:</b> 游侠凯雷, 影商</span>
+      <span class="tag loot"><b>战利品:</b> 被诅咒的银币</span>
+    </div>
+    <p class="excerpt">
+      “那个男人就坐在枯死的树干上，手里把玩着一枚不属于这个世界的银币。他开出的价格不是金子，而是我们其中一人的秘密……”
+    </p>
+    <span class="read-more">READ THE CHRONICLE...</span>
+  </a>
+
+  <div class="bottom-nav">
+    <a href="index.html" class="back-to-map">
+      合上书卷并返回 <span>(Close Book & Return to Map)</span>
+    </a>
+  </div>
+</main>
+
+<footer>
+  凡所历之事，必留于青史，或镌刻于墓碑。
+</footer>
+
+</body>
+</html>

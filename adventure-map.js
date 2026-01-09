@@ -56,23 +56,7 @@ const adventureData = [
     }
 ];
 
-// SVG 图标库
-const svgLibrary = {
-    scrollIcon: `
-        <circle cx="50" cy="50" r="45" fill="#f3eacb" stroke-width="2"/>
-        <rect x="25" y="30" width="50" height="40" rx="5" fill="#fffef0" stroke="#2c241b" stroke-width="2"/>
-        <rect x="20" y="30" width="5" height="40" fill="#8b7355"/>
-        <rect x="75" y="30" width="5" height="40" fill="#8b7355"/>
-        <path d="M75 25 L85 15 L85 20 L75 30 Z" fill="#2c241b" stroke="none"/>
-        <line x1="75" y1="25" x2="60" y2="40" stroke="#2c241b" stroke-width="2"/>
-    `,
-    crystalIcon: `
-        <circle cx="50" cy="50" r="45" fill="#f3eacb" stroke-width="2"/>
-        <circle cx="50" cy="35" r="25" fill="#fffef0" stroke="#2c241b" stroke-width="2"/>
-        <path d="M30 60 L70 60 L65 70 L35 70 Z" fill="#8b7355" stroke="#2c241b" stroke-width="1"/>
-        <circle cx="55" cy="30" r="5" fill="#f3eacb" opacity="0.8"/>
-    `
-};
+
 
 // ==========================================
 // 2. 核心渲染逻辑
