@@ -3,236 +3,268 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Pirata+One&family=Noto+Serif+SC:wght@600&family=MedievalSharp&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Noto+Serif+SC:wght@600&family=MedievalSharp&display=swap" rel="stylesheet">
   
-  <title>吟游诗篇 · Psalms of the Wanderer</title>
+  <title>炉火轶闻 · Hearthside Tales</title>
   
   <style>
+    @font-face {
+      font-family: 'ZCOOLXiaoWei';
+      src: url('fonts/ZCOOLXiaoWei-Regular.otf') format('opentype');
+      font-display: swap;
+    }
+
     :root {
-      --bg-dark: #a68d71;           
-      --card-bg: #d9c5b2;           
-      --border-color: #8c735a;      
-      --text-main: #2a2118;         
-      --accent-gold: #7d512d;       
-      --accent-red: #823025;        
-      
-      --tag-event-bg: #4a5a6a;      
-      --tag-loc-bg: #4e5a4f;        
-      --tag-char-bg: #6b5641;       
-      --tag-loot-bg: #5a415e;       
-      --tag-text: #fdfaf3;          
+      /* Hufflepuff 核心配色 */
+      --grad-center: #D2964E;
+      --grad-edge: #B04410;
+      --accent-gold: #BA8B3A;
+      --accent-brown: #6a3129;
+      --wax-seal: #69240E;
+      --paper-bg: #f4e4bc;
+      --text-dark: #2a1b0a;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
+      padding: 60px 0;
       min-height: 100vh;
-      background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)),
-                  url('https://www.transparenttextures.com/patterns/handmade-paper.png'), var(--bg-dark);
-      background-attachment: fixed;
-      color: var(--text-main);
+      /* 放射状背景渐变 */
+      background: radial-gradient(circle, var(--grad-center) 0%, var(--grad-edge) 100%);
+      display: flex;
+      justify-content: center;
       font-family: 'Noto Serif SC', serif;
-      line-height: 1.8;
+      overflow-x: hidden;
     }
 
-    header {
-      padding: 100px 5vw 60px;
-      max-width: 1200px;
-      margin: 0 auto;
+    /* 卷轴整体容器：移除木轴，改用手绘边缘蒙版 */
+    .scroll-container {
+      width: 92vw;
+      max-width: 1400px;
+      position: relative;
+      background-color: var(--paper-bg);
+      /* 模拟手绘破损边缘 */
+      clip-path: polygon(
+        0% 5%, 5% 0%, 95% 2%, 100% 7%, 98% 30%, 100% 50%, 97% 80%, 100% 95%, 
+        92% 100%, 50% 98%, 10% 100%, 0% 93%, 3% 70%, 0% 45%, 4% 20%
+      );
+      box-shadow: 20px 20px 60px rgba(0,0,0,0.5);
+      animation: unfoldAnim 1.2s ease-out forwards;
+      padding: 80px 10%;
+    }
+
+    /* 纸张纹理叠加 */
+    .scroll-container::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    /* 凯尔特结装饰边角 */
+    .celtic-corner {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      fill: var(--accent-gold);
+      opacity: 0.4;
+      z-index: 5;
+    }
+    .top-left { top: 40px; left: 40px; }
+    .top-right { top: 40px; right: 40px; transform: rotate(90deg); }
+    .bottom-left { bottom: 40px; left: 40px; transform: rotate(-90deg); }
+    .bottom-right { bottom: 40px; right: 40px; transform: rotate(180deg); }
+
+    /* --- 标题绶带区 --- */
+    .banner-wrapper {
+      position: relative;
+      margin: 20px auto 60px;
       text-align: center;
+      width: fit-content;
+      z-index: 10;
     }
 
-    h1 {
-      font-family: 'ZCOOL KuaiLe', cursive;
-      font-size: 2.5em;
-      color: var(--accent-gold);
-      margin: 0;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-      letter-spacing: 0.1em;
+    .banner-main {
+      background: var(--accent-gold);
+      color: var(--accent-brown);
+      padding: 15px 80px;
+      font-family: 'ZCOOLXiaoWei', serif;
+      font-size: 3.5em;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 2;
     }
 
-    .subtitle {
-      font-family: 'ZCOOL KuaiLe', system-ui;
-      font-size: 1.5em;
-      color: var(--accent-red);
-      margin-top: 5px;
-      display: block;
-      letter-spacing: 3px;
+    .banner-wing {
+      position: absolute;
+      top: 20px;
+      width: 100px;
+      height: 70px;
+      background: #9a722e; /* 稍暗的金色模拟背光 */
+      z-index: 1;
+    }
+    .left-wing { 
+        left: -60px; 
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 20% 100%, 0 50%); 
+    }
+    .right-wing { 
+        right: -60px; 
+        clip-path: polygon(0 0, 100% 0, 100% 50%, 80% 100%, 0 100%); 
     }
 
-    main {
-      padding: 0 5vw 60px;
-      max-width: 1000px;
-      margin: 0 auto;
+    /* 火漆印章 */
+    .wax-seal {
+      width: 70px;
+      height: 70px;
+      background: var(--wax-seal);
+      border-radius: 50%;
+      margin: -30px auto 40px;
+      position: relative;
+      z-index: 12;
+      box-shadow: 2px 4px 8px rgba(0,0,0,0.4), inset 2px 2px 5px rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #541b0b;
+    }
+    .wax-seal::after {
+      content: "⚜";
+      color: rgba(0,0,0,0.3);
+      font-size: 30px;
     }
 
+    /* --- 战报条目 --- */
     .log-entry {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      box-shadow: 6px 6px 15px rgba(0,0,0,0.1);
-      padding: 40px;
-      margin-bottom: 50px;
+      background: rgba(186, 139, 58, 0.08);
+      border: 1px solid rgba(106, 49, 41, 0.2);
+      border-radius: 30px; /* 圆角条目 */
+      padding: 40px 60px;
+      margin-bottom: 35px;
       text-decoration: none;
       display: block;
-      transition: all 0.4s ease-out;
+      transition: all 0.4s ease;
       position: relative;
+      backdrop-filter: blur(2px);
     }
 
     .log-entry:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent-gold);
-      background: #e3d5c5; 
-      box-shadow: 12px 12px 30px rgba(0,0,0,0.15);
+      background: rgba(186, 139, 58, 0.15);
+      border-color: var(--accent-brown);
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: 0 10px 25px rgba(106, 49, 41, 0.1);
+    }
+
+    .entry-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     h3 {
-      font-family: 'ZCOOL KuaiLe', serif;
-      font-size: 2.4em;
-      color: var(--text-main);
-      margin: 0 0 20px 0;
-      border-bottom: 1px double var(--border-color);
-      display: inline-block;
-      padding-bottom: 10px;
+      font-family: 'ZCOOLXiaoWei', serif;
+      font-size: 2.6em;
+      color: var(--accent-brown);
+      margin: 0;
     }
 
-    .tags {
+    .meta-box {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 25px;
-    }
-
-    .tag {
-      padding: 5px 14px;
-      font-size: 0.9em;
-      color: var(--tag-text);
-      border-radius: 3px;
-      display: flex;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .tag.event { background: var(--tag-event-bg); }
-    .tag.loc { background: var(--tag-loc-bg); }
-    .tag.char { background: var(--tag-char-bg); }
-    .tag.loot { background: var(--tag-loot-bg); border: 1px solid var(--accent-gold); }
-
-    .tag b { color: #dfc7af; margin-right: 6px; font-weight: 600; opacity: 0.9; }
-
-    .excerpt {
-      font-size: 1.15em;
-      color: #4a3f35;
-      font-style: italic;
-      line-height: 1.9;
-      padding-left: 15px;
-      border-left: 3px solid var(--border-color);
-    }
-
-    .read-more {
-      font-family: 'Pirata One', serif;
-      color: var(--accent-red);
-      letter-spacing: 2px;
-      font-size: 1.3em;
-      display: block;
-      margin-top: 25px;
-    }
-
-    /* 底部按钮区域 */
-    .bottom-nav {
-      text-align: center;
-      padding: 40px 0 20px;
-    }
-
-    .back-to-map {
-      display: inline-block;
-      text-decoration: none;
-      font-family: 'Noto Serif SC', serif;
-      color: var(--accent-red); 
+      gap: 50px;
+      color: var(--text-dark);
       font-size: 1.1em;
-      padding: 12px 30px;
-      border: 1px solid var(--border-color);
-      background: #c6b29d; 
-      transition: all 0.3s ease;
-      letter-spacing: 1px;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+      font-weight: 600;
     }
 
-    .back-to-map span {
-      font-family: 'Pirata One', serif;
-      font-size: 1.2em;
-      margin-left: 5px;
-      color: var(--accent-red); /* 英文保持红色作为点缀 */
+    .meta-box b {
+      color: var(--wax-seal);
+      font-family: 'MedievalSharp', serif;
+      margin-right: 8px;
     }
 
-    .back-to-map:hover {
-      /* Hover 时变回明亮的卡片色 */
-      background: var(--card-bg); 
-      color: var(--accent-red); /* 鼠标移上去时中文也变红，增加反馈感 */
-      border-color: var(--accent-gold);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transform: translateY(-2px);
+    /* 入场动画 */
+    @keyframes unfoldAnim {
+      0% { transform: scaleY(0.1); opacity: 0; }
+      100% { transform: scaleY(1); opacity: 1; }
     }
 
-    footer {
+    .back-nav {
       text-align: center;
-      padding: 40px 5vw 80px;
-      font-family: 'Noto Serif SC', serif;
-      font-size: 1.1em;
+      margin-top: 80px;
+    }
+    .back-btn {
+      font-family: 'ZCOOLXiaoWei', serif;
       color: var(--accent-gold);
-      opacity: 0.8;
-      border-top: 1px solid var(--border-color);
-      max-width: 800px;
-      margin: 0 auto;
+      text-decoration: none;
+      font-size: 1.5em;
+      border: 1px solid var(--accent-gold);
+      padding: 10px 40px;
+      border-radius: 40px;
+      transition: 0.3s;
+    }
+    .back-btn:hover {
+      background: var(--accent-gold);
+      color: white;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>炉火轶闻 Hearthside Tales</h1>
-  <span class="subtitle">故事在炉火中永存。</span>
-</header>
+  <div class="scroll-container">
+    <svg class="celtic-corner top-left" viewBox="0 0 100 100"><path d="M20,20 Q50,0 80,20 T80,80 T20,80 T20,20 M30,30 Q50,20 70,30 T70,70 T30,70 T30,30" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    <svg class="celtic-corner top-right" viewBox="0 0 100 100"><path d="M20,20 Q50,0 80,20 T80,80 T20,80 T20,20 M30,30 Q50,20 70,30 T70,70 T30,70 T30,30" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    <svg class="celtic-corner bottom-left" viewBox="0 0 100 100"><path d="M20,20 Q50,0 80,20 T80,80 T20,80 T20,20 M30,30 Q50,20 70,30 T70,70 T30,70 T30,30" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    <svg class="celtic-corner bottom-right" viewBox="0 0 100 100"><path d="M20,20 Q50,0 80,20 T80,80 T20,80 T20,20 M30,30 Q50,20 70,30 T70,70 T30,70 T30,30" fill="none" stroke="currentColor" stroke-width="2"/></svg>
 
-<main>
-  <a href="report-01.html" class="log-entry">
-    <h3>卷十四：黑牙矿井的覆灭</h3>
-    <div class="tags">
-      <span class="tag event"><b>记录:</b> 遭遇战</span>
-      <span class="tag loc"><b>地标:</b> 纳斯雷兹大矿洞</span>
-      <span class="tag char"><b>同行者:</b> 艾拉, 托宾</span>
-      <span class="tag loot"><b>战利品:</b> 幽冥铁矿、仪式短剑</span>
-    </div>
-    <p class="excerpt">
-      “矿道内弥漫着令人窒息的硫磺味。当艾拉的圣光照亮转角处时，我们才发现自己早已被无数双猩红的眼睛包围。那是食尸鬼的盛宴，而我们是不请自来的主菜……”
-    </p>
-    <span class="read-more">READ THE CHRONICLE...</span>
-  </a>
+    <header>
+      <div class="banner-wrapper">
+        <div class="banner-wing left-wing"></div>
+        <div class="banner-main">炉火轶闻</div>
+        <div class="banner-wing right-wing"></div>
+      </div>
+      
+      <div class="wax-seal"></div>
+    </header>
 
-  <a href="report-02.html" class="log-entry">
-    <h3>卷十五：迷雾中的交易</h3>
-    <div class="tags">
-      <span class="tag event"><b>记录:</b> 交涉</span>
-      <span class="tag loc"><b>地标:</b> 永冬森林</span>
-      <span class="tag char"><b>同行者:</b> 游侠凯雷, 影商</span>
-      <span class="tag loot"><b>战利品:</b> 被诅咒的银币</span>
-    </div>
-    <p class="excerpt">
-      “那个男人就坐在枯死的树干上，手里把玩着一枚不属于这个世界的银币。他开出的价格不是金子，而是我们其中一人的秘密……”
-    </p>
-    <span class="read-more">READ THE CHRONICLE...</span>
-  </a>
+    <main>
+      <a href="#" class="log-entry">
+        <div class="entry-content">
+          <h3>卷十四：黑牙矿井的覆灭</h3>
+          <div class="meta-box">
+            <span><b>CHRONO</b> 1126.10.24</span>
+            <span><b>REALM</b> 纳斯雷兹大矿洞</span>
+          </div>
+        </div>
+      </a>
 
-  <div class="bottom-nav">
-    <a href="index.html" class="back-to-map">
-      离开炉火旁 <span>(Leave the Hearth)</span>
-    </a>
+      <a href="#" class="log-entry">
+        <div class="entry-content">
+          <h3>卷十五：迷雾中的交易</h3>
+          <div class="meta-box">
+            <span><b>CHRONO</b> 1126.12.01</span>
+            <span><b>REALM</b> 永冬森林</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="log-entry">
+        <div class="entry-content">
+          <h3>卷十六：旧堡垒的低语</h3>
+          <div class="meta-box">
+            <span><b>CHRONO</b> 1127.02.15</span>
+            <span><b>REALM</b> 遗忘高地</span>
+          </div>
+        </div>
+      </a>
+
+      <nav class="back-nav">
+        <a href="index.html" class="back-btn">离开炉火 · Leave Hearth</a>
+      </nav>
+    </main>
   </div>
-</main>
-
-<footer>
-  愿命运女神眷顾。
-</footer>
 
 </body>
 </html>

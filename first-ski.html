@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在欧洲的第二次圣诞 - Second Xmas in Europe</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jim+Nightshade&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-web/style.css" media="print" onload="this.media='all'">
+    
+    <link rel="stylesheet" href="lang-switch.css">
+
+    <style>
+
+@font-face {
+        font-family: 'ZhanKuXiaowei';
+        /* 确保路径正确：fonts 文件夹在根目录下 */
+        src: url('fonts/ZCOOLXiaoWei-Regular.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap; /* 确保字体加载时不会出现白屏 */
+    }
+
+    :root {
+        --bg-paper: #f4e8d1;
+        --ink-color: #2b2018;
+        --accent-color: #8a2c2c;
+        /* 2. 修改这里的变量，使用新定义的字体 */
+        --font-zh: 'ZhanKuXiaowei', serif; 
+        --font-en: 'Jim Nightshade', cursive;
+    }
+
+    body {
+        background-color: #d4aa73;
+        margin: 0;
+        padding: 20px;
+        /* 这里的 var 会自动调用上面定义的 MyCustomFont */
+        font-family: var(--font-zh);
+        color: var(--ink-color);
+        line-height: 1.8;
+        background-image: url('https://www.transparenttextures.com/patterns/wood.png');
+    }
+
+        .letter-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--bg-paper);
+            padding: 60px 80px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            position: relative;
+            /* 纸张纹理 */
+            background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.8rem; /* 稍微调大一点 */
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--ink-color);
+            padding-bottom: 20px;
+            font-family: var(--font-display); /* 标题专用字体 */
+            font-weight: normal;
+        }
+
+        .date {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 40px;
+            font-family: var(--font-en);
+            font-size: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 50px;
+            color: var(--accent-color);
+            font-family: var(--font-display); /* 小标题也用装饰字体 */
+            border-bottom: 1px dashed var(--ink-color);
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        p {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            text-align: justify;
+            /* 霞鹜文楷不需要太粗，默认就很好看 */
+        }
+
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            margin: 30px 0;
+            padding-left: 20px;
+            font-style: italic; /* 霞鹜文楷的斜体也很有韵味 */
+            color: #444;
+            background: rgba(0,0,0,0.03);
+            padding: 15px 20px;
+        }
+
+        figure {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        figure img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            filter: sepia(20%) contrast(95%);
+        }
+
+        figcaption {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #666;
+            font-family: var(--font-body);
+        }
+
+        .back-btn {
+            display: block;
+            width: fit-content;
+            margin: 60px auto 0;
+            text-decoration: none;
+            color: var(--ink-color);
+            border: 2px solid var(--ink-color);
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        .back-btn:hover {
+            background: var(--ink-color);
+            color: var(--bg-paper);
+        }
+
+        @media (max-width: 600px) {
+            .letter-container { padding: 30px 20px; }
+            h1 { font-size: 1.8rem; }
+            p { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <article class="letter-container">
+        <h1>在欧洲的第二次圣诞</h1>
+        <p class="date">2025-01-05</p>
+
+        <p>在欧洲的第一次圣诞已经过去好多年了，许多细节都已经回忆不清。但去年在意大利度过的圣诞却非常近，还有很多能回忆起来的东西。</p>
+
+        <h2>圣诞节当然要去滑雪啦！</h2>
+        <p>我和男友Tom从21号开始就开启了度假模式，趁着欧洲大部分人还没开始放圣诞假，先去Sappada滑雪。Sappada是一个位于多洛米蒂山脉（阿尔卑斯山的一部分）的小村庄，平均海拔有1200+米。它靠近奥地利，所以也讲德语。夏季会有很多人来这里徒步，冬季这里则是一个小众滑雪胜地。Tom家因为离Sappada比较近，所以这里也算是他们家每年冬天都会去的滑雪目的地之一。</p>
+    <figure>
+            <img src="images/first-ski/alpsy.png" alt="Busuu主页">
+        <figcaption>商店里会售卖充满阿尔卑斯风情的手工钟表</figcaption>
+    </figure>
+<p>在出发前Tom还在担心去年Sappada降雪不多，怕影响我这次的滑雪初体验，所以从12月初开始，他就一直在看雪场的网络摄像头，希望能下一场大雪。</p>
+ <figure>
+            <img src="images/first-ski/early-dec-snow.png" alt="Busuu主页">
+        <figcaption>12月初雪场的雪况凄凉</figcaption>
+        </figure>
+<p>好在老天眷顾，就在我们出发前两天，Sappada下了一场大雪，于是我们激动地出发了，从辽阔的平原一直向着山脉前进。</p>
+ <figure>
+            <img src="images/first-ski/distant-snow.png" alt="Busuu主页">
+        <figcaption>能看见远处的雪山山脉</figcaption>
+    </figure>
+<p>旅途一开始还见不到什么雪，进山又开了半个多小时左右，突然在拐过某个弯之后，雪好像一下子就多了起来。</p>
+ <figure>
+            <img src="images/first-ski/more-snow.png" alt="Busuu主页">
+        <figcaption>突然有雪了</figcaption>
+    </figure>
+     <figure>
+            <img src="images/first-ski/all-snow.png" alt="Busuu主页">
+        <figcaption>银装素裹的世界</figcaption>
+    </figure>
+<h2>第一堂滑雪课</h2>
+<p>随着我们绕着一圈圈盘山公路向上攀升，周围的一切都裹上了一层厚厚的雪。又开了一会，我们就到了Sappada小镇的主干道。我专门为这次滑雪买了不少装备，不过雪靴、雪板和手杖还得去租，工作人员会根据你的身高、体重和脚的尺码给你选合适的装备。</p>
+<p>Tom替我预约了2个小时的教练课，他自己转头去滑高级道了。我的第一个教练是个年轻的小姑娘，她说她只有21岁（我以为她25），还在伦敦上学，只是寒假来给小孩子初学者上课的。</p>
+<figure>
+            <img src="images/first-ski/first-class.png" alt="窗外掠过的景色">
+            <figcaption>第一天上课</figcaption>
+        </figure>
+<p>她先带着我跟一群齐腰高的小不点一起在一个非常缓的坡上学习启动和停止。从照片里可以看出，这个坡真的非常缓，接近于平地。红绿灯右边是上坡用的“魔毯”，只需要踏上传送带就能稳稳地带着你到坡顶。</p>
+<p>熟悉基本要领后，我们又转移到了稍微长一点、陡一点的坡道练习，这条道上坡用的就是拖牵了。在来Sappada之前，Tom曾经指着网络摄像头里的拖牵，问我用没用过这个。镜头里一个个空荡荡的拖牵看起来就像没有扫把头的女巫扫帚，被竖直地吊在空中有序地前进。我非常疑惑这该怎么用。Tom说你人坐在上面，它会拖着你走。</p>
+<p>坐在上面？拖着我走？我还是非常疑惑，并且在心里犯嘀咕。画面里的一根根棍子大概离地有1~2米高，底部有一个圆盘，除此之外没有任何保护措施。这要怎么坐在上面？我脑子里的画面不是我用手吊挂在圆盘底部，像长臂猿一样往前荡过去，就是脚踩在圆盘上，然后紧紧地抱着棍子飘过去。不管哪一种画面都很吓人。</p>
+<p>如今到了场地我才意识到，这些棍子还连着可以伸缩的缆绳，在坡道底部会有工作人员帮忙把它拉下来。我只需要像女巫骑扫帚一样，把拖牵夹在双腿之间，底部的圆盘就会托着我的屁屁，给我一个向前的动力。我的双脚也是踩实在地面上的，不用像我想象中那样悬在空中。总的来说，滑雪不管是上坡还是下坡，都不需要我自己提供动力，很好玩！</p>
+<p>在这个雪道上，我大概是除了教练以外唯一的成年人。周围都是裹得厚厚的小不点。可能是因为重心比较低，他们摔倒了也不哭不喊，站起来就能接着滑，让我这个非常害怕摔跤的人十分钦佩。</p>
+<p>冬天天黑得很早，基本上天一擦黑雪场就要清场关门了。一下午过来，我晃晃悠悠地滑了几遍，竟然神奇地没有摔跤。临到课程结束，Tom回来充满期待地问教练，我能不能滑初级道里面更进阶的雪道，要坐10分钟缆车上山的那种。教练说我再多练习一下，或许明天可以去。</p>
+<p>离开雪场，我们先随便找了家咖啡店吃了点面包夹香肠（名字叫salsiccia，但是看起来更像午餐肉，而且里面有小块脆脆的东西，可能是脆骨），喝了点热巧克力。这是我们当天早餐后吃的第一顿饭。因为一直在赶路（中途还绕到市内买了护目镜和手套），到地方之后便立马开始上课（甚至还迟到了十几分钟），直到课后才有机会吃点东西垫一下肚子。等我们去民宿办理入住时已经七点过了，天已经完全黑透。</p>
+
+<h2>“小窝”民宿 Il Nido</h2>
+
+<p>这家民宿叫 il Nido，意思是“窝”，老板是个中国人。我们之所以会定这家民宿，也是因为Tom的爸妈在夏天来Sappada玩的时候住过这里，觉得不错，而且跟老板聊得很开心，于是推荐我们来住。当时由于还没到圣诞旺季，民宿的大草坪前只有我们一辆车，看起来我们就是老板唯一的客人。我才刚下车就看到老板在里面冲我们热情地挥手；等我们把车里的东西拿出来，准备往里走时，老板已经走到了前门迎接我们，打开门招呼我们快进去。</p>
+<p>这是一栋两层的小楼，楼下开民宿，楼上就是老板一家人住。我们一边办理入住一边聊天。老板叫Angela，是镇上唯一的亚洲人。她说她当初接到我的预定就很高兴，更是在我抵达之前5天就开始兴奋了。她说她开了5年民宿，我是她接待的第三位亚洲客人，前两位一个来自台湾，一个来自上海。</p>        
+<p>我们办理入住的地方同时也是她的吧台。在我们办理完入住后，Angela又从吧台下端了一小碗面点零食出来，并热情地问我们要不要喝点什么开胃酒暖暖身子或者喝点咖啡，她请我们喝。于是我不客气地要了一杯阿佩罗鸡尾酒（Aperol Spritz），Tom不喝酒，要了一杯咖啡。喝阿佩罗还是我上次来欧洲的时候染上的习惯，这是意大利最经典的一款餐前开胃酒，喝起来酸甜爽口，像是甜橙味的酒精饮料。</p>
+<figure>
+            <img src="images/first-ski/aperol.png" alt="窗外掠过的景色">
+            <figcaption>阿佩罗</figcaption>
+        </figure>
+<p>之后她说要上楼去忙了，有什么事可以随时叫她，吧台前面的封闭式小露台早上会开放免费自助早餐。</p>
+<p>il Nido是个全木制的小屋，从墙壁地板到桌椅门窗，全是不加修饰的原木，这还是我第一次见，挺新奇。屋内也经常能看到Angela布置的中国元素装饰（也是木制的）。一楼的每个房间外面还有一个大阳台，虽然跟室内只隔着一层玻璃，但是一点也不冷。</p>
+<figure>
+            <img src="images/first-ski/nido-room.png" alt="窗外掠过的景色">
+            <figcaption>全木制房间</figcaption>
+        </figure>
+<figure>
+            <img src="images/first-ski/room-vista.png" alt="窗外掠过的景色">
+            <figcaption>房间外的风景</figcaption>
+        </figure>
+
+
+<h2>“混血”饮食</h2>
+<p>我们把行李搬进房间安顿好后，稍事休息就出门吃晚饭了。由于靠近奥地利，Sappada的菜式属于意式和奥地利餐饮的混血，餐厅的菜单也是德意英三语的。一般来说，意大利人吃饭会先喝开胃酒（Aperitivo），再上冷盘/前菜（Antipasto），然后再吃第一道菜和第二道菜，最后以甜点或咖啡或“助消化”的餐后酒收尾（餐后酒一般会免费送）。我们在饭前已经喝过酒也吃过一些东西了，所以不是很饿，就只点了前菜和正餐。</p>
+<p>作为两个肉食动物，我们前菜自然点了熟成生火腿和意式香肠（吃起来也有点像熟成的）。正餐我出于好奇点了当地特色的菠菜意面，Tom保守地点了牛排。虽然我的意面也挺好吃，但Tom的牛排比我的好吃更多倍，我非常后悔，临走前又特地去这家餐厅吃了一次牛排。</p>
+<figure>
+            <img src="images/first-ski/anti-pasto.png" alt="窗外掠过的景色">
+            <figcaption>前菜</figcaption>
+        </figure>
+<figure>
+            <img src="images/first-ski/main-course.png" alt="窗外掠过的景色">
+            <figcaption>正餐</figcaption>
+        </figure>
+<figure>
+            <img src="images/first-ski/steaks.png" alt="窗外掠过的景色">
+            <figcaption>再度拜访Eldenweiss，两人都点了牛排</figcaption>
+        </figure>
+<p>显然，我们俩又眼大肚皮小，点多了。所以甜点也没吃就买单打道回府了。虽然躺在床上肚子还撑得圆滚滚的，但可能是下午有一定运动量，我还是很快睡着了。</p>
+<figure>
+            <img src="images/first-ski/after-coffee.png" alt="窗外掠过的景色">
+            <figcaption>饭后我一般还会要一杯意式浓缩espresso，然后狠狠加糖</figcaption>
+        </figure>
+
+<h2>挑战自我……并失败</h2>
+<p>第二天早上Tom给我预约了一个小时的课，换了位老师。急匆匆在民宿吃完早饭，还没来得及好好欣赏窗外的风景，我又要赶着去上课了（并且再次迟到OTZ）。 </p>
+<figure>
+            <img src="images/first-ski/breakfast.png" alt="窗外掠过的景色">
+            <figcaption>露台餐厅的早晨</figcaption>
+        </figure>
+        <figure>
+            <img src="images/first-ski/hearth.png" alt="窗外掠过的景色">
+            <figcaption>旁边还有小火炉</figcaption>
+        </figure>
+<p>这次的老师是位中年女性，叫Roberta。她英语说得不算好，口音很重，话讲到一半就会自动冒出来意大利语。好在我临行前突击学习了两个月的意大利语，加上肢体语言，课程进展得也还算顺利。Roberta明显比昨天的教练更有经验，我在初级道简单复习了一下昨天的内容，感觉信心倍增；Tom问起来，Roberta也说我可以去滑更进阶的雪道了。</p>
+<p>于是我们又预约了一小时下午的课程，换到更高阶的地方去练习。中午就在雪场的小摊上随便吃了点香肠和薯条（这个薯条炸得很脆，撒的料又足，真是我吃过最好吃的薯条！可惜后面摊主关门回家过圣诞去了，再也没吃上过）。我点了一杯当地特色的酒精饮料Bombardino，喝起来像是加了致死量糖的蛋奶利口酒再挤上一层厚厚的奶油——一种为了御寒而诞生的饮品，妥妥的热量炸弹。</p>
+<figure>
+            <img src="images/first-ski/bombardino.png" alt="窗外掠过的景色">
+            <figcaption>Bombardino，名副其实</figcaption>
+        </figure>
+<p>吃完饭后距离跟Roberta约的课还有大概半小时，Tom按捺不住，决定先带我去下午要上课的雪道走一趟。事实证明，他请老师给我上课是个正确的决定，而自己带我走雪道是个错误的决定。</p>
+<figure>
+            <img src="images/first-ski/ski-route.png" alt="窗外掠过的景色">
+            <figcaption>雪中的进阶初级雪道</figcaption>
+        </figure>
+<p>到这个新雪道，我的交通工具又要升级了——我需要学会用缆车。我之前从没坐过缆车，Tom提前教我：一会咱们上缆车动作要快，站到位之后就别动了，让缆车座椅来找你的屁谷；然后下缆车的时候别太早站起来，不然你会被缆车绊倒；起身以后你用力推一下座椅就能滑出去了。这种无实物口头教学让我听得有些云里雾里，心里其实已经有点暗暗打鼓了。坐上缆车的过程还算顺利，但在离开座椅时，我起身太晚，后推的力量也不够，最后被椅子推倒在地。没想到滑到现在，我摔的第一跤不是因为滑雪，而是被椅子推的，有点滑稽。</p>
+<figure>
+            <img src="images/first-ski/magic-chair.png" alt="窗外掠过的景色">
+            <figcaption>从缆车上看底下的雪道</figcaption>
+        </figure>
+
+<p>等我真正滑起来我才发现，这个坡道的陡峭度和长度完全不是我一开始跟小不点们训练的难度可以相提并论的。有些路段我甚至看不到前面的路，只能看到坡道隆起的边缘；而且坡度太陡，我在初级道上学到的技巧在这里已经不够用了。我控制不住速度，没办法在想停的时候停下来，刚滑下去两段路就摔了一个大跟头。我起来以后有点不敢滑了。虽然Tom就在我前面不远处，但我还是害怕。</p>
+<p>现在情况很尴尬：我已经下了雪道，不知道前面还有多远才能到头，但我已经不敢再继续了；中途也没有退出点，我卡在那里，不敢下，没法上。而且我跟Roberta预约的上课时间已经快要到了。想到这一点，我还是鼓起勇气，又往下滑了一段。</p>
+<p>整个过程我还是非常地慌乱。遇到陡坡，我用初级道学的八字停，感觉雪板都要磨出火星子了还是停不下来。我还犯了初学者经常犯的错误，感觉要摔倒、想要减速的时候身体会下意识地往后倾倒，这样反而完全失去了对雪板的掌控。这里要说一下我觉得滑雪时非常反直觉的一个操作：越是感觉要摔倒时，你的身体越是要往前倾，用小腿去压住雪板，从而控制住雪板。</p>
+<p>另外在“之”字型转向减速的时候，我的两只脚也不同步，转向不完全，导致雪板尖交叉，进一步失去控制。我就这样又摔了一跤，在雪地上滚了一圈才停下来。说实话，这一跤摔得其实并不疼，但晕头转向、失去控制的感觉把我吓哭了。Tom确认我我没事后，在我前面引导我继续向下，但我只敢站在原地摇头，默默流泪，死活不肯继续滑了。</p>
+<p>我站在雪道旁边哭了一会儿，Tom也一直站在前方鼓励我。就这样僵持了一会，等我情绪平复了，我继续紧张地往前滑，滑了一段然后又停下来平复一下受惊的情绪。这座山好像有无限高，前方的雪道也仿佛永远没有尽头，我每隔一段路就要停一停；就这样滑滑停停，在滑过了初级雪道七八倍的长度以后，我终于抵达了雪道的尽头。原本Tom预计我们可以在20分钟内完成的雪道，我硬生生滑了一小时才到底。不用说，我上课叕迟到了OTZ。</p>
+<figure>
+            <img src="images/first-ski/end-of-route.png" alt="窗外掠过的景色">
+            <figcaption>终于滑到底了</figcaption>
+        </figure>
+
+<h2>……然后成功！</h2>
+        <p>Roberta人很好，虽然我迟到了半小时，但是她完全没怪我。听说我吓哭了，还安慰我，说接下来我跟着她上课很安全；而且我是她当天的最后一节课了，她可以往后延长一下下课时间。我们坐在缆车上时，Roberta跟我聊天，说到她很喜欢滑雪，五年前开始玩自由滑雪（没有雪道和警示标志），但是从没有参加过大的滑雪比赛（因为比赛都安排得很早，她起不来哈哈哈）。不过她其实更喜欢在夏天的时候打打网球。听说我和Tom是来Sappada旅游的，她还给我推荐可以去哪里玩。</p>
+<p>跟着Roberta，我果然安心许多。听她的指令，我提早了一些从座位上站了起来，缆车并没有绊倒我，反而推着我，给了我个初速度，我只需要再稍稍用力，就顺利地离开了缆车。有了这个成功的开头，我好像有了些信心。后续Roberta一直在我前方不远处倒着滑，方便观察我的动作，同时也引导我向前。她教我把注意力从雪道转移到她身上，不要去想脚下的路，只需要向她靠近，她会纠正我的动作。一路上，我没有再去想前方的路还有多远、多陡，只是尽力用标准的动作向Roberta靠近。虽然我还是有些害怕，但这一次我没有再摔跤了，速度也快了很多，只用了40分钟就滑完了全程。之后我们赶在雪场关门前又滑了一次，这次只用了20分钟就顺利抵达了底部。Roberta在下课前给我录了一段我滑雪的视频，同时非常骄傲地说，四个小时的课程就能滑成这样了！</p>
+<p>我感觉怪不好意思的。老实说，我滑雪时仍旧是龟速，动作虽然勉强算是标准了，但还很僵硬。上课也是，先迟到了半小时不说，课程最后可能实际上了一个多小时。但是Roberta毫不在意，只是一味地夸赞我进步很快，并把这段视频发给了Tom，让他转发给我。我现在打开这段视频，还能听到伴随着我笨拙动作的Roberta骄傲的声音。我很感激能遇到Roberta这样的好老师。</p>
+<p>原本我们打算23号就离开Sappada，但考虑到我才算是刚刚学会了滑雪，所以我们商量了一下，临时改了计划，在Sappada多待一天，24号再赶回去过圣诞。</p>
+
+<h2>好评如潮的Angela</h2>
+<p>晚上回到民宿换了衣服，Tom还有一些工作要处理，我正好对于Angela非常好奇，想知道她怎么会决定来Sappada定居，就去吧台跟Angela聊了一会。Angela非常健谈，大概也是很久都没有遇到中国客人了，叽里呱啦说了很多。她说她跟老公原本住在国内，但是她老公哮喘有些严重，所以决定搬回他老家（也就是sappada），这里空气质量好些。一开始她很不适应，也不会说意大利语，住了两三个月就又搬回去了。但是看到老公总是哐哐地咳，有些于心不忍，于是又搬回来了，她也开始学习意大利语。同时她老公把一楼给她改造成了民宿，她一半时间带孩子，一半时间管理民宿，工作生活也还算平衡。说起在Sappda的生活，Angela眉飞色舞地开始给我推荐当地的好吃的、好喝的（提到了很多芝士，但我不喜欢奶制品，所以一个没记住），说她尝试过并且觉得好喝的野格茶（Jäger Tea），这种茶如名字所说，就是拿野格兑热茶，在冬天喝暖呼呼的，并且说着就要给我调一杯。我其实喝不惯野格的草药苦味，本来想婉拒；但Angela说野格兑了茶以后味道就变淡了，没有那种草药的苦味了，很好喝，她请我喝，我便没再推辞。</p>
+<figure>
+            <img src="images/first-ski/jager-tea.png" alt="窗外掠过的景色">
+            <figcaption>果然味道淡淡的，甜甜的，很好喝</figcaption>
+        </figure>
+        <p>后面她儿子下来找她，他们该一起去朋友家吃晚饭了，我们也该吃晚饭了，于是暂时告别。</p>
+<p>当天晚上我们去吃了披萨。意大利人对披萨上放的料其实有一定灵活性和定制性，比如我点了虾米披萨，但是因为担心纤维摄入不够，所以又加了西葫芦片和西红柿（菠萝不在可选项内）。他们一个人一顿饭就能吃掉一整个12寸的披萨，这也是我非常不适应的一点，每次都会剩下差不多一半。</p>
+
+        <figure>
+            <img src="images/first-ski/pizza.png" alt="窗外掠过的景色">
+            <figcaption>我每次自己加东西感觉都踩雷</figcaption>
+        </figure>
+<p>那天晚上风很大，出门时就感觉人有些站不稳，所以我们很快吃完饭，就慢慢地开车回去了。半夜也能听到屋外很大的风声，挺吓人。</p>
+<p>早餐时Angela在吧台忙碌，随口跟我们闲聊，问我们昨晚睡得如何。她说昨天风很大，吹得她一晚上提心吊胆的，没睡好觉。第二天起来，听说昨晚Sappada主干道上某家人的铁皮屋顶都被风掀翻了。我觉得有些后怕，还好昨晚安全回到了民宿。</p>
+<p>Angela还是一如既往地热情健谈，又接着昨天的话题给我们推荐Sappda的美食。跟Tom说话时她用意大利语，跟我说话就切换成中文，想要同时跟我们两人说话的话就用英文，三种语言无缝切换。她给我推荐早餐水果里的脆柿，当地人叫它caco mela，是种有苹果（mela）口感的柿子（caco），并且说着就动手给我削了一个。我其实昨天早餐看到了这个水果，但是怕认错了所以没拿，因为以前在澳洲吃的梨跟国内的梨口感差异还是很大。脆柿尝起来倒是跟国内一个味道，我也学会了一个新词，之后每天都念叨着要吃caco mela。</p>
+<figure>
+            <img src="images/first-ski/nido-breakfast.png" alt="窗外掠过的景色">
+            <figcaption>il Nido的早餐选项很丰富，让我这个吃不惯甜口早餐的人也有选择的余地</figcaption>
+        </figure>
+<p>新的一天，我仍旧在跟进阶初级雪道作斗争。这次没了老师，换成Tom全程陪着我。不过好在我已经熟悉了雪道，技术也有所进步，可以不停顿地滑完全程了，也没再摔跤。滑到下午，我从注意力全在如何纠正自己的动作到能够丝滑地转弯，终于有余力享受滑雪的快乐了。尽管我还是不敢提速，但是已经能够稳稳地滑完全程。</p>
+<h2>再见Sappada</h2>
+<p>快乐的时光总是短暂，第二天我们就要离开了。早餐时Angela特地来跟我们道别，欢迎我们以后再去Sappada玩。她女儿也下楼来帮忙打理收拾。在il Nido住的几天，几乎每天Angela都会请我们喝点什么，也会像朋友一样聊自己家的日常（比如儿子想走滑雪事业线，很烧钱），还会非常热情地推荐这推荐那；她儿子女儿见到我时她也招呼他们叫我阿姨（阿姨……😭），让我感到格外亲切，好像真的住进了（陌生的）朋友家里。我终于理解为什么Tom的爸妈特地推荐我们住这里，要是住在意大利人开的民宿里，这趟旅程可能真的会少很多有意思的故事。</p>
+<p>我们在Sappada开心地玩了好几天（主要是我，Tom则是尽力确保了我很开心），但这里还有很多东西我还没能体验。希望未来有机会再来滑雪！</p>
+
+
+        <a href="real-life-journals.html" class="back-btn">← 返回 Return</a>
+    </article>
+
+    <div class="lang-switch" onclick="switchLanguage()">
+        <span class="content-zh"> EN </span>
+        <span class="content-en"> 中文 </span>
+    </div>
+
+    <script src="lang-switch.js"></script>
+</body>
+</html>

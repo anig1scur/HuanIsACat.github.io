@@ -34,10 +34,9 @@ const adventureData = [
             en: 'Records of thoughts on technology and philosophy.'
         },
         links: [
-            { url: 'dream-journals.html', zh: '✦ 幻梦之书', en: '✦ Dream Codex' },
+            { url: 'dream-journals.html', zh: '✦ 梦境幻象', en: '✦ Dream Visions' },
             { url: 'campaign-logs.html', zh: '✦ 炉火轶闻', en: '✦ Hearthside Tales' },
             // 记叙那些惊心动魄的战役，与火光中的笑语。
-            { url: '#', zh: '✦ AI辅助翻译作品', en: '✦ AI-enhanced Translations' }
         ]
     },
     {
@@ -51,7 +50,7 @@ const adventureData = [
             en: 'View images and recordings from the past.'
         },
         links: [
-            { url: '#', zh: '✦ [相册] 魔宠', en: '✦ [Gallery] Familiar' },
+            { url: 'jiong-journals.html', zh: '✦ 魔宠观察档案', en: '✦ Familiar Observation Notes' },
             { url: 'real-life-journals.html', zh: '✦ 尘世行纪', en: '✦ Mundane Journal' }
         ]
     }
