@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Noto+Serif+SC:wght@600&family=MedievalSharp&display=swap" rel="stylesheet">
+    <title>坠入阿弗纳斯 - 战报</title>
+    <style>
+        @font-face {
+            font-family: 'ZCOOLXiaoWei';
+            src: url('fonts/ZCOOLXiaoWei-Regular.otf') format('opentype');
+            font-display: swap;
+        }
+
+        :root {
+            --grad-center: #D2964E;
+            --grad-edge: #B04410;
+            --accent-gold: #BA8B3A;
+            --accent-brown: #6a3129;
+            --wax-seal: #69240E;
+            --paper-bg: #f4e4bc;
+            --text-dark: #2a1b0a;
+        }
+
+        /* 基础设置 */
+        html { scroll-behavior: smooth; } /* 平滑滚动核心 */
+        body {
+            margin: 0;
+            background: radial-gradient(circle, var(--grad-center) 0%, var(--grad-edge) 100%);
+            font-family: 'Noto Serif SC', serif;
+            color: var(--text-dark);
+            line-height: 1.8;
+            padding-bottom: 120px;
+        }
+
+        /* --- [新增] 侧边目录样式 --- */
+        .toc-sidebar {
+            position: fixed;
+            left: -280px; /* 默认隐藏 */
+            top: 50px;
+            width: 280px;
+            height: auto;
+            max-height: 80vh;
+            background: var(--paper-bg);
+            background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+            z-index: 1000;
+            box-shadow: 5px 0 25px rgba(0,0,0,0.4);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid var(--accent-gold);
+            border-left: none;
+            padding: 40px 25px;
+            clip-path: polygon(0% 0%, 100% 0%, 95% 50%, 100% 100%, 0% 100%);
+        }
+
+        .toc-sidebar.active { left: 0; }
+
+        /* 目录开关标签 (书签形状) */
+        .toc-trigger {
+            position: absolute;
+            right: -50px;
+            top: 20px;
+            width: 50px;
+            height: 60px;
+            background: var(--wax-seal);
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.3);
+            font-size: 24px;
+        }
+
+        .toc-sidebar h2 {
+            font-family: 'ZCOOLXiaoWei', serif;
+            font-size: 1.8em;
+            color: var(--accent-brown);
+            border-bottom: 1px solid var(--accent-gold);
+            margin-bottom: 20px;
+        }
+
+        .toc-list { list-style: none; padding: 0; }
+        .toc-list li { margin: 15px 0; }
+        .toc-list a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: bold;
+            transition: 0.3s;
+            display: block;
+        }
+        .toc-list a:hover { color: var(--grad-edge); transform: translateX(5px); }
+        .toc-list .sub-link { padding-left: 20px; font-size: 0.9em; opacity: 0.8; }
+
+        /* --- 页面主体内容 --- */
+        .page-container {
+            width: 90vw;
+            max-width: 1100px;
+            margin: 60px auto;
+            background-color: var(--paper-bg);
+            background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+            box-shadow: 0 0 50px rgba(0,0,0,0.4);
+            position: relative;
+            padding: 80px 60px;
+            min-height: 100vh;
+            clip-path: polygon(0% 2%, 5% 0%, 95% 1%, 100% 3%, 98% 30%, 100% 50%, 99% 80%, 100% 98%, 95% 100%, 50% 99%, 5% 100%, 0% 97%);
+        }
+
+        .chapter-title {
+            text-align: center;
+            font-family: 'ZCOOLXiaoWei', serif;
+            font-size: 3em;
+            color: var(--wax-seal);
+            margin: 60px 0 10px 0; /* 增加顶部间距防止被挡住 */
+            border-bottom: 2px solid var(--accent-gold);
+            display: inline-block;
+            width: 100%;
+        }
+
+        .narrative-wrapper { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        .main-text { font-size: 1.15em; text-align: justify; }
+        .main-text p::first-letter { font-family: 'ZCOOLXiaoWei', serif; font-size: 2.5em; float: left; margin-right: 8px; color: var(--wax-seal); line-height: 1; }
+
+        .sidebar { border-left: 1px dashed var(--accent-brown); padding-left: 20px; font-size: 0.9em; color: var(--accent-brown); }
+        .sidebar-item { margin-bottom: 30px; background: rgba(106, 49, 41, 0.05); padding: 15px; border-radius: 10px; }
+
+        .status-card { margin: 50px auto; border: 2px double var(--accent-gold); padding: 20px; background: rgba(255,255,255,0.3); display: flex; justify-content: space-around; font-family: 'MedievalSharp', serif; }
+        .status-item { text-align: center; }
+        .status-item label { display: block; font-size: 0.8em; color: var(--accent-brown); }
+        .status-item span { font-size: 1.4em; font-weight: bold; color: var(--wax-seal); }
+
+        /* 底部互动头像 */
+        .character-bar { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; z-index: 100; background: rgba(42, 27, 10, 0.8); padding: 10px 30px; border-radius: 50px; border: 1px solid var(--accent-gold); backdrop-filter: blur(10px); }
+        .avatar-wrap { position: relative; cursor: pointer; }
+        .avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent-gold); transition: 0.3s; background: #eee; }
+        .bubble { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); width: 220px; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); font-size: 0.9em; display: none; z-index: 101; line-height: 1.4; }
+        .bubble::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -10px; border: 10px solid; border-color: white transparent transparent transparent; }
+        .active .bubble { display: block; animation: fadeInUp 0.3s ease; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+    </style>
+</head>
+<body>
+
+<nav class="toc-sidebar" id="tocMenu">
+    <div class="toc-trigger" onclick="toggleTOC()">⚜</div>
+    <h2>章节索引</h2>
+    <ul class="toc-list">
+        <li><a href="#chap1" onclick="toggleTOC()">壹 · 艾尔托瑞尔的余烬</a></li>
+        <li><a href="#chap2" onclick="toggleTOC()" class="sub-link"> - 寻找铁匠威鲁姆</a></li>
+        <li><a href="#chap3" onclick="toggleTOC()" class="sub-link"> - 盲目的仁慈</a></li>
+        <li><a href="#chap-final" onclick="toggleTOC()">贰 · 月光小鹿的浓烟</a></li>
+        <hr style="border: none; border-top: 1px dotted var(--accent-gold); margin: 20px 0;">
+        <li><a href="hearth-index.html" style="font-size: 0.8em; opacity: 0.7;">⬅ 返回炉火轶闻</a></li>
+    </ul>
+</nav>
+
+<div class="page-container">
+    <header id="chap1">
+        <h1 class="chapter-title">第一章：艾尔托瑞尔的余烬</h1>
+        <span style="text-align:center; display:block; font-style:italic; color:var(--accent-brown); margin-bottom:40px;">"当圣光坠入地狱，唯有凡人的勇气在灰烬中闪烁。"</span>
+    </header>
+
+    <div class="narrative-wrapper">
+        <article class="main-text">
+            <h3 id="chap2" style="font-family:'ZCOOLXiaoWei'; color:var(--accent-brown);">【寻找铁匠威鲁姆】</h3>
+            <p>艾尔托瑞尔陷落了。曾经的圣光之城如今只剩下破碎的轮廓，悬浮在血色的天际线下。雅希拉、贝耶特、杜瓦尔、米娅莉与科尔在烟尘中喘息。他们被小女孩雅拉和老牧羊人高林救起。雅拉告诉众人，铁匠威鲁姆为了寻找武器穿过了危险的断壁残垣，至今未归。</p>
+
+            <p>途中，他们遇到了一个惊慌失措的厨子。在指引他前往难民营后，众人来到了铁匠铺。威鲁姆的怒吼声隔着门板都能听到，原来一个装了车轮腿的食人魔抢走了所有的武器。更糟糕的是，这群强盗似乎与蛇人有勾结，正在进行人口贩卖的邪恶生意。</p>
+            
+            <h3 id="chap3" style="font-family:'ZCOOLXiaoWei'; color:var(--accent-brown);">【盲目的仁慈】</h3>
+            <p>归途中，伏击如期而至。讽刺的是，强盗中竟有雅希拉之前救助过的人。战斗结束后，血腥味尚未散去，游侠杜瓦尔冷冷地警告道：“善良是好事，但在这里，盲目的善良会害死我们所有人。”</p>
+        </article>
+
+        <aside class="sidebar">
+            <div class="sidebar-item">
+                <strong>【地理志：艾尔托瑞尔】</strong>
+                <p>原本是艾尔托加德的首府，如今被拉入了阿弗纳斯的第一层。</p>
+            </div>
+            <div class="sidebar-item">
+                <strong>【势力：散塔林会？】</strong>
+                <p>蛇人的勾结，隐约指向了倒卖人口的黑暗组织。</p>
+            </div>
+        </aside>
+    </div>
+
+    <section class="status-card">
+        <div class="status-item"><label>Current Level</label><span>LV 3</span></div>
+        <div class="status-item"><label>Party Gold</label><span>142 GP</span></div>
+        <div class="status-item"><label>Next Stop</label><span>博德之门</span></div>
+    </section>
+
+    <h2 class="chapter-title" id="chap-final">第二章：月光小鹿的浓烟</h2>
+    <p class="main-text">
+        夜晚的“月光小鹿”旅店并没能带来安宁。浓烟从马厩升起，僵尸的低吼在门口起伏。瓦沙老板娘的呼救声刺破了寂静...在解决掉那些受污秽气息驱动的死者后，雅希拉明白，这支疲惫的小队必须护送难民离开，向着传闻中的博德之门进发。
+    </p>
+</div>
+
+<div class="character-bar">
+    <div class="avatar-wrap" onclick="toggleBubble(this)">
+        <div class="bubble">雅希拉：“我依然相信仁慈，即使是在地狱。”</div>
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Yaxila" class="avatar">
+    </div>
+    <div class="avatar-wrap" onclick="toggleBubble(this)">
+        <div class="bubble">贝耶特：“你们吵架的时候，我已经在看哪双靴子值钱了。”</div>
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Beyet" class="avatar">
+    </div>
+    <div class="avatar-wrap" onclick="toggleBubble(this)">
+        <div class="bubble">杜瓦尔：“善良在这儿是奢侈品，小心别透支了。”</div>
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Duval" class="avatar">
+    </div>
+    <div class="avatar-wrap" onclick="toggleBubble(this)">
+        <div class="bubble">科尔：“那头山羊克莱德...它的眼神为何如此深邃？”</div>
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Kor" class="avatar">
+    </div>
+</div>
+
+<script>
+    // 目录显示切换
+    function toggleTOC() {
+        document.getElementById('tocMenu').classList.toggle('active');
+    }
+
+    // 吐槽气泡切换
+    function toggleBubble(element) {
+        const all = document.querySelectorAll('.avatar-wrap');
+        all.forEach(item => { if (item !== element) item.classList.remove('active'); });
+        element.classList.toggle('active');
+    }
+
+    // 点击外部关闭
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.avatar-wrap')) {
+            document.querySelectorAll('.avatar-wrap').forEach(item => item.classList.remove('active'));
+        }
+        if (!e.target.closest('#tocMenu')) {
+            document.getElementById('tocMenu').classList.remove('active');
+        }
+    });
+</script>
+
+</body>
+</html>
