@@ -12,7 +12,7 @@
         @font-face {
             font-family: 'ZhanKuXiaowei';
             /* 请确保路径指向你之前的字体文件 */
-            src: url('fonts/ZCOOLXiaoWei-Regular.otf') format('opentype');
+            src: url("{{ '/fonts/ZCOOLXiaoWei-Regular.otf' | url }}") format('opentype');
             font-weight: normal; font-style: normal; font-display: swap;
         }
 
@@ -243,7 +243,7 @@
         </div>
 
         <footer>
-            <a href="/index.html" class="back-btn">再见小猫 (Bye Jiong)</a>
+            <a href="{{ '/index.html' | url }}" class="back-btn">再见小猫 (Bye Jiong)</a>
         </footer>
     </main>
 

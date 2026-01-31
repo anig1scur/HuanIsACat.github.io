@@ -10,7 +10,7 @@
   <style>
     @font-face {
       font-family: 'ZCOOLXiaoWei';
-      src: url('fonts/ZCOOLXiaoWei-Regular.otf') format('opentype');
+      src: url("{{ '/fonts/ZCOOLXiaoWei-Regular.otf' | url }}") format('opentype');
       font-display: swap;
     }
 
@@ -230,7 +230,7 @@
     </header>
 
     <main>
-      <a href="descend-into-avernus.html" class="log-entry">
+    <a href="{{ '/articles/campaign-logs/descend-into-avernus.html' | url }}" class="log-entry">
         <div class="entry-content">
           <h3>坠入阿弗纳斯</h3>
           <div class="meta-box">
@@ -261,7 +261,7 @@
       </a>
 
       <nav class="back-nav">
-        <a href="/index.html" class="back-btn">起身离开 · Leave Hearth</a>
+        <a href="{{ '/index.html' | url }}" class="back-btn">起身离开 · Leave Hearth</a>
       </nav>
     </main>
   </div>
